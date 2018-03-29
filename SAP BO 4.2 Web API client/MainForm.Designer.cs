@@ -294,7 +294,7 @@
             // 
             this.TxtFilename.Location = new System.Drawing.Point(85, 83);
             this.TxtFilename.Name = "TxtFilename";
-            this.TxtFilename.Size = new System.Drawing.Size(210, 20);
+            this.TxtFilename.Size = new System.Drawing.Size(227, 20);
             this.TxtFilename.TabIndex = 11;
             // 
             // LblFolderId
