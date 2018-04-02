@@ -23,6 +23,7 @@ namespace SAP_BO_4._2_Web_API_client
             DocOperation docop = new DocOperation(webapi);
             SAPDocumentList docList = new SAPDocumentList();
             docop.GetDocumentList("5388", ref docList);
+
             foreach (SAPDocument doc in docList)
             {
                 Console.WriteLine(doc.SI_PATH);

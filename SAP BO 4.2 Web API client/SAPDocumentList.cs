@@ -9,6 +9,10 @@ namespace SAP_BO_4._2_Web_API_client
 {
     class SAPDocumentList : IEnumerable
     {
+        public SAPDocumentList()
+        {
+        }
+
         public List<SAPDocument> entries { get; set; }
 
         public IEnumerator GetEnumerator()
