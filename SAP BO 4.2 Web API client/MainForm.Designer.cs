@@ -37,6 +37,7 @@
             this.BtnLogon = new System.Windows.Forms.Button();
             this.BtnLogoff = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BtnClearTrace = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.TraceBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -55,6 +56,8 @@
             this.LblDocId = new System.Windows.Forms.Label();
             this.TxtDocId = new System.Windows.Forms.TextBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.label5 = new System.Windows.Forms.Label();
+            this.TxtReqXMLBody = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -97,7 +100,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 78);
+            this.label3.Location = new System.Drawing.Point(19, 76);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 13);
             this.label3.TabIndex = 5;
@@ -105,7 +108,7 @@
             // 
             // TxtPassword
             // 
-            this.TxtPassword.Location = new System.Drawing.Point(77, 74);
+            this.TxtPassword.Location = new System.Drawing.Point(77, 72);
             this.TxtPassword.Name = "TxtPassword";
             this.TxtPassword.Size = new System.Drawing.Size(119, 20);
             this.TxtPassword.TabIndex = 4;
@@ -124,7 +127,7 @@
             // 
             // BtnLogoff
             // 
-            this.BtnLogoff.Location = new System.Drawing.Point(203, 73);
+            this.BtnLogoff.Location = new System.Drawing.Point(203, 71);
             this.BtnLogoff.Name = "BtnLogoff";
             this.BtnLogoff.Size = new System.Drawing.Size(85, 23);
             this.BtnLogoff.TabIndex = 7;
@@ -137,6 +140,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.BtnClearTrace);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.TraceBox);
             this.groupBox1.Controls.Add(this.LblCMSURI);
@@ -154,10 +158,20 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Connection";
             // 
+            // BtnClearTrace
+            // 
+            this.BtnClearTrace.Location = new System.Drawing.Point(203, 95);
+            this.BtnClearTrace.Name = "BtnClearTrace";
+            this.BtnClearTrace.Size = new System.Drawing.Size(85, 23);
+            this.BtnClearTrace.TabIndex = 10;
+            this.BtnClearTrace.Text = "Clear Trace";
+            this.BtnClearTrace.UseVisualStyleBackColor = true;
+            this.BtnClearTrace.Click += new System.EventHandler(this.BtnClearTrace_Click);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 101);
+            this.label1.Location = new System.Drawing.Point(19, 100);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 13);
             this.label1.TabIndex = 9;
@@ -168,10 +182,11 @@
             this.TraceBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TraceBox.Location = new System.Drawing.Point(22, 117);
+            this.TraceBox.Location = new System.Drawing.Point(22, 132);
             this.TraceBox.Multiline = true;
             this.TraceBox.Name = "TraceBox";
-            this.TraceBox.Size = new System.Drawing.Size(266, 296);
+            this.TraceBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TraceBox.Size = new System.Drawing.Size(266, 281);
             this.TraceBox.TabIndex = 8;
             // 
             // groupBox2
@@ -179,6 +194,8 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.TxtReqXMLBody);
+            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.LovHttpMethod);
             this.groupBox2.Controls.Add(this.BtnFetchParam);
@@ -186,7 +203,7 @@
             this.groupBox2.Controls.Add(this.TxtRequest);
             this.groupBox2.Location = new System.Drawing.Point(330, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(400, 79);
+            this.groupBox2.Size = new System.Drawing.Size(400, 153);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Results";
@@ -194,7 +211,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(33, 52);
+            this.label4.Location = new System.Drawing.Point(33, 130);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 13);
             this.label4.TabIndex = 5;
@@ -208,25 +225,25 @@
             "GET",
             "POST",
             "PUT"});
-            this.LovHttpMethod.Location = new System.Drawing.Point(85, 48);
+            this.LovHttpMethod.Location = new System.Drawing.Point(84, 126);
             this.LovHttpMethod.Name = "LovHttpMethod";
             this.LovHttpMethod.Size = new System.Drawing.Size(121, 21);
             this.LovHttpMethod.TabIndex = 0;
             // 
             // BtnFetchParam
             // 
-            this.BtnFetchParam.Location = new System.Drawing.Point(319, 47);
+            this.BtnFetchParam.Location = new System.Drawing.Point(319, 125);
             this.BtnFetchParam.Name = "BtnFetchParam";
             this.BtnFetchParam.Size = new System.Drawing.Size(75, 21);
             this.BtnFetchParam.TabIndex = 3;
-            this.BtnFetchParam.Text = "Fetch";
+            this.BtnFetchParam.Text = "Send Rq";
             this.BtnFetchParam.UseVisualStyleBackColor = true;
             this.BtnFetchParam.Click += new System.EventHandler(this.BtnFetchParam_Click);
             // 
             // LblRequest
             // 
             this.LblRequest.AutoSize = true;
-            this.LblRequest.Location = new System.Drawing.Point(29, 26);
+            this.LblRequest.Location = new System.Drawing.Point(29, 27);
             this.LblRequest.Name = "LblRequest";
             this.LblRequest.Size = new System.Drawing.Size(50, 13);
             this.LblRequest.TabIndex = 2;
@@ -235,11 +252,11 @@
             // 
             // TxtRequest
             // 
-            this.TxtRequest.Location = new System.Drawing.Point(85, 23);
+            this.TxtRequest.Location = new System.Drawing.Point(84, 23);
             this.TxtRequest.Name = "TxtRequest";
             this.TxtRequest.Size = new System.Drawing.Size(309, 20);
             this.TxtRequest.TabIndex = 1;
-            this.TxtRequest.Text = "/biprws/raylight/v1/documents/5457/parameters?lovInfo=true";
+            this.TxtRequest.Text = "/biprws/raylight/v1/";
             // 
             // groupBox3
             // 
@@ -254,9 +271,9 @@
             this.groupBox3.Controls.Add(this.TxtFolderId);
             this.groupBox3.Controls.Add(this.LblDocId);
             this.groupBox3.Controls.Add(this.TxtDocId);
-            this.groupBox3.Location = new System.Drawing.Point(330, 97);
+            this.groupBox3.Location = new System.Drawing.Point(330, 171);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(400, 347);
+            this.groupBox3.Size = new System.Drawing.Size(400, 273);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Document Tools";
@@ -279,6 +296,7 @@
             this.BtnExport.TabIndex = 6;
             this.BtnExport.Text = "Export";
             this.BtnExport.UseVisualStyleBackColor = true;
+            this.BtnExport.Click += new System.EventHandler(this.BtnExport_Click);
             // 
             // LblFilename
             // 
@@ -313,6 +331,7 @@
             this.TxtFolderId.Name = "TxtFolderId";
             this.TxtFolderId.Size = new System.Drawing.Size(121, 20);
             this.TxtFolderId.TabIndex = 7;
+            this.TxtFolderId.Text = "5388";
             // 
             // LblDocId
             // 
@@ -330,6 +349,24 @@
             this.TxtDocId.Name = "TxtDocId";
             this.TxtDocId.Size = new System.Drawing.Size(121, 20);
             this.TxtDocId.TabIndex = 0;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(29, 52);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(32, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "XML:";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TxtReqXMLBody
+            // 
+            this.TxtReqXMLBody.Location = new System.Drawing.Point(84, 48);
+            this.TxtReqXMLBody.Multiline = true;
+            this.TxtReqXMLBody.Name = "TxtReqXMLBody";
+            this.TxtReqXMLBody.Size = new System.Drawing.Size(309, 72);
+            this.TxtReqXMLBody.TabIndex = 7;
             // 
             // MainForm
             // 
@@ -381,6 +418,9 @@
         private System.Windows.Forms.Label LblFilename;
         private System.Windows.Forms.TextBox TxtFilename;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button BtnClearTrace;
+        private System.Windows.Forms.TextBox TxtReqXMLBody;
+        private System.Windows.Forms.Label label5;
     }
 }
 

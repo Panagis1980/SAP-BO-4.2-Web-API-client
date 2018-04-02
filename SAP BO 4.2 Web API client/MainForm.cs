@@ -37,7 +37,7 @@ namespace SAP_BO_4._2_Web_API_client
 
             if (webAPIconnect != null && webAPIconnect.isLoggedOn())
             {
-                TraceBox.Text += "Please log off before logging on again.\r\n";
+                TraceBox.Text += "Please log off before logging on again.\r\n";             
                 return;
             }
 
@@ -51,7 +51,9 @@ namespace SAP_BO_4._2_Web_API_client
             else
             {
                 TraceBox.Text += "Logon successful.\r\n";
+
                 this.docOperation = new DocOperation(webAPIconnect);
+
             }
         }
 
@@ -84,7 +86,7 @@ namespace SAP_BO_4._2_Web_API_client
                 TraceBox.Text += "Not logged on. Could not fetch document parameters.\r\n";
                 return;
             }
-
+            TraceBox.Text = "";
             TraceBox.Text += "Attempting HTTP Request...\r\n";
 
             XmlDocument send = new XmlDocument();
@@ -94,10 +96,21 @@ namespace SAP_BO_4._2_Web_API_client
 
             try
             {
+                if (TxtReqXMLBody == null)
+                {
+                    send.InnerXml = TxtReqXMLBody.Text;
+                }
                 webAPIconnect.CreateWebRequest(send, recv, LovHttpMethod.Text, TxtRequest.Text);
                 TraceBox.Text += send.OuterXml.ToString() + "\r\n";
+                TraceBox.Text += "==================================\r\n";
                 TraceBox.Text += recv.OuterXml.ToString() + "\r\n";
+                TraceBox.Text += "==================================\r\n";
+                TraceBox.Text += recv.InnerText + "\r\n";
+                TraceBox.Text += "==================================\r\n";
+                TraceBox.Text += recv.InnerXml + "\r\n";
+                TraceBox.Text += "==================================\r\n";
                 TraceBox.Text += "Request succesfully completed...\r\n";
+                TraceBox.Text += "==================================\r\n";
             } catch
             {
                 TraceBox.Text += "Error in HTTP Request...\r\n";
@@ -112,6 +125,37 @@ namespace SAP_BO_4._2_Web_API_client
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 TxtFilename.Text = saveFileDialog1.FileName;
+            }
+        }
+
+        private void BtnClearTrace_Click(object sender, EventArgs e)
+        {
+            TraceBox.Text = "";
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
+        {
+            if (webAPIconnect == null || !webAPIconnect.isLoggedOn())
+            {
+                TraceBox.Text += "Not logged on. Could not fetch document parameters.\r\n";
+                return;
+            }
+
+            TraceBox.Text += "Attempting HTTP Request...\r\n";
+
+            XmlDocument send = new XmlDocument();
+            XmlDocument recv = new XmlDocument();
+            XmlNamespaceManager nsmgrRecv = new XmlNamespaceManager(recv.NameTable);
+            nsmgrRecv.AddNamespace("rest", "");
+
+            try
+            {
+                //TraceBox.Text += docOperation.GetDocumentList(TxtFolderId.Text,);
+                TraceBox.Text += "Closing HTTP Request...\r\n";
+            }
+            catch
+            {
+                TraceBox.Text += "Error in HTTP Request...\r\n";
             }
         }
     }
