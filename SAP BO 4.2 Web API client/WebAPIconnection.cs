@@ -25,6 +25,11 @@ namespace SAP_BO_4._2_Web_API_client
             this.URI = URI;
         }
 
+        public WebAPIconnection()
+        {
+            this.logonToken = string.Empty;
+        }
+
         #region Logon
         /* uses userName and password to retrieve the logonToken
          * 

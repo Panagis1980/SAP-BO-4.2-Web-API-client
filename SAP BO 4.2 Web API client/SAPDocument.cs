@@ -14,5 +14,6 @@ namespace SAP_BO_4._2_Web_API_client
             public string SI_KIND { get; set; }
             public string SI_PARENT_FOLDER { get; set; }
             public string SI_PATH { get; set; }
+            public List<SAPDataProvider> DataProviderList { get; set; }
     }
 }

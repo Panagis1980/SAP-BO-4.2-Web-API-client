@@ -41,6 +41,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.TraceBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.TxtReqXMLBody = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.LovHttpMethod = new System.Windows.Forms.ComboBox();
             this.BtnFetchParam = new System.Windows.Forms.Button();
@@ -56,8 +58,6 @@
             this.LblDocId = new System.Windows.Forms.Label();
             this.TxtDocId = new System.Windows.Forms.TextBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.label5 = new System.Windows.Forms.Label();
-            this.TxtReqXMLBody = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -208,6 +208,24 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Results";
             // 
+            // TxtReqXMLBody
+            // 
+            this.TxtReqXMLBody.Location = new System.Drawing.Point(84, 48);
+            this.TxtReqXMLBody.Multiline = true;
+            this.TxtReqXMLBody.Name = "TxtReqXMLBody";
+            this.TxtReqXMLBody.Size = new System.Drawing.Size(309, 72);
+            this.TxtReqXMLBody.TabIndex = 7;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(29, 52);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(32, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "XML:";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -332,6 +350,7 @@
             this.TxtFolderId.Size = new System.Drawing.Size(121, 20);
             this.TxtFolderId.TabIndex = 7;
             this.TxtFolderId.Text = "5388";
+            this.TxtFolderId.TextChanged += new System.EventHandler(this.TxtFolderId_TextChanged);
             // 
             // LblDocId
             // 
@@ -349,24 +368,6 @@
             this.TxtDocId.Name = "TxtDocId";
             this.TxtDocId.Size = new System.Drawing.Size(121, 20);
             this.TxtDocId.TabIndex = 0;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(29, 52);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "XML:";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // TxtReqXMLBody
-            // 
-            this.TxtReqXMLBody.Location = new System.Drawing.Point(84, 48);
-            this.TxtReqXMLBody.Multiline = true;
-            this.TxtReqXMLBody.Name = "TxtReqXMLBody";
-            this.TxtReqXMLBody.Size = new System.Drawing.Size(309, 72);
-            this.TxtReqXMLBody.TabIndex = 7;
             // 
             // MainForm
             // 
