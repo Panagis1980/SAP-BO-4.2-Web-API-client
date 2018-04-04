@@ -34,6 +34,8 @@ namespace SAP_BO_4._2_Web_API_client
                 sw.WriteLine("*****************");
                 sw.WriteLine("ConnectionName");
                 sw.WriteLine("*****************");
+                sw.WriteLine("ConnectionType");
+                sw.WriteLine("*****************");
                 sw.WriteLine("FHSQL");
                 sw.WriteLine("#################");
 
@@ -49,6 +51,8 @@ namespace SAP_BO_4._2_Web_API_client
                         sw.WriteLine(dp.Name);
                         sw.WriteLine("*****************");
                         sw.WriteLine(dp.DataSourceName);
+                        sw.WriteLine("*****************");
+                        sw.WriteLine(dp.DataSourceType);
                         sw.WriteLine("*****************");
                         sw.WriteLine(dp.sql);
                         sw.WriteLine("#################");

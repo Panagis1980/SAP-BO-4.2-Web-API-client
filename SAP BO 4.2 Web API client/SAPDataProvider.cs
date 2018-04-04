@@ -14,5 +14,15 @@ namespace SAP_BO_4._2_Web_API_client
         public string DataSourceType { get; set; }
         public string DataSourceName { get; set; }
         public string sql { get; set; }
+
+        public SAPDataProvider()
+        {
+            this.ID = string.Empty;
+            this.Name = string.Empty;
+            this.DataSourceId = string.Empty;
+            this.DataSourceType = string.Empty;
+            this.DataSourceName = string.Empty;
+            this.sql = string.Empty;
+        }
     }
 }
