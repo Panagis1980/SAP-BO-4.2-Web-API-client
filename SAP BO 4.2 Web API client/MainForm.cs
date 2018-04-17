@@ -119,7 +119,7 @@ namespace SAP_BO_4._2_Web_API_client
 
         private void BtnBrowse_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.InitialDirectory = Convert.ToString(Environment.SpecialFolder.MyDocuments);
+            saveFileDialog1.InitialDirectory = Convert.ToString(Environment.CurrentDirectory);
             saveFileDialog1.Filter = "Excel 2007 Files (*.xlsx)|*.xlsx|All Files (*.*)|*.*";
             saveFileDialog1.FilterIndex = 1;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)

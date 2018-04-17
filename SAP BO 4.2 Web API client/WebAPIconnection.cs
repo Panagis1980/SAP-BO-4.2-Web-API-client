@@ -38,7 +38,7 @@ namespace SAP_BO_4._2_Web_API_client
          */
         public int Logon()
         {
-            if (logonToken != "")
+            if (!logonToken.Equals(string.Empty))
             {
                 // already has a logon token. Need to explicitly logoff before proceeding.
                 return 1;
