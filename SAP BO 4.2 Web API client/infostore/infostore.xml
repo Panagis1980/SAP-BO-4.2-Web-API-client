@@ -1,0 +1,180 @@
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<id>tag:sap.com,2010:bip-rs/AeN4lEu0h_tAtnPEjFYxwi8/children</id>
+	<title type="text">Children of Web Intelligence Samples</title>
+	<updated>2018-04-17T18:46:24.777Z</updated>
+	<link href="http://vmbi42sp4:6405/biprws/infostore/5388/children?page=1&amp;pageSize=50" rel="self" />
+	<link href="http://vmbi42sp4:6405/biprws/infostore/5388/children?page=1&amp;pageSize=50" rel="first" />
+	<link href="http://vmbi42sp4:6405/biprws/infostore/5388/children?page=1&amp;pageSize=50" rel="last" />
+	<entry>
+		<title type="text">Mobile Samples</title>
+		<id>tag:sap.com,2010:bip-rs/AbShpyV1zOlJntqMZ31WhAc</id>
+		<author>
+			<name>Administrator</name>
+			<uri>http://vmbi42sp4:6405/biprws/infostore/12</uri>
+		</author>
+		<updated>2018-03-29T21:35:46.309Z</updated>
+		<link href="http://vmbi42sp4:6405/biprws/infostore/5389" rel="alternate" />
+		<content type="application/xml">
+			<attrs xmlns="http://www.sap.com/rws/bip">
+				<attr name="cuid" type="string">AbShpyV1zOlJntqMZ31WhAc</attr>
+				<attr name="name" type="string">Mobile Samples</attr>
+				<attr name="description" type="string"/>
+				<attr name="id" type="int32">5389</attr>
+				<attr name="type" type="string">Folder</attr>
+			</attrs>
+		</content>
+	</entry>
+	<entry>
+		<title type="text">Resources</title>
+		<id>tag:sap.com,2010:bip-rs/AfVwQ9Wd6N9Bv2ZHuAkrDx0</id>
+		<author>
+			<name>Administrator</name>
+			<uri>http://vmbi42sp4:6405/biprws/infostore/12</uri>
+		</author>
+		<updated>2018-03-29T21:37:52.699Z</updated>
+		<link href="http://vmbi42sp4:6405/biprws/infostore/9475" rel="alternate" />
+		<content type="application/xml">
+			<attrs xmlns="http://www.sap.com/rws/bip">
+				<attr name="cuid" type="string">AfVwQ9Wd6N9Bv2ZHuAkrDx0</attr>
+				<attr name="name" type="string">Resources</attr>
+				<attr name="description" type="string"/>
+				<attr name="id" type="int32">9475</attr>
+				<attr name="type" type="string">Folder</attr>
+			</attrs>
+		</content>
+	</entry>
+	<entry>
+		<title type="text">ZZ_Activity Follow-up Dashboard</title>
+		<id>tag:sap.com,2010:bip-rs/AYYlYos_o_RCp4PDcn6djiE</id>
+		<author>
+			<name>Administrator</name>
+			<uri>http://vmbi42sp4:6405/biprws/infostore/12</uri>
+		</author>
+		<updated>2018-03-29T21:37:52.439Z</updated>
+		<link href="http://vmbi42sp4:6405/biprws/infostore/9480" rel="alternate" />
+		<content type="application/xml">
+			<attrs xmlns="http://www.sap.com/rws/bip">
+				<attr name="cuid" type="string">AYYlYos_o_RCp4PDcn6djiE</attr>
+				<attr name="name" type="string">ZZ_Activity Follow-up Dashboard</attr>
+				<attr name="description" type="string"/>
+				<attr name="id" type="int32">9480</attr>
+				<attr name="type" type="string">Webi</attr>
+			</attrs>
+		</content>
+	</entry>
+	<entry>
+		<title type="text">ZZ_Charting</title>
+		<id>tag:sap.com,2010:bip-rs/AW4AVT1AUhVAogA6P7OQv9c</id>
+		<author>
+			<name>Administrator</name>
+			<uri>http://vmbi42sp4:6405/biprws/infostore/12</uri>
+		</author>
+		<updated>2018-03-29T21:37:52.669Z</updated>
+		<link href="http://vmbi42sp4:6405/biprws/infostore/5456" rel="alternate" />
+		<content type="application/xml">
+			<attrs xmlns="http://www.sap.com/rws/bip">
+				<attr name="cuid" type="string">AW4AVT1AUhVAogA6P7OQv9c</attr>
+				<attr name="name" type="string">ZZ_Charting</attr>
+				<attr name="description" type="string"/>
+				<attr name="id" type="int32">5456</attr>
+				<attr name="type" type="string">Webi</attr>
+			</attrs>
+		</content>
+	</entry>
+	<entry>
+		<title type="text">ZZ_Fold Unfold</title>
+		<id>tag:sap.com,2010:bip-rs/AXpyoryP_Z5BoXVoM2_3kWQ</id>
+		<author>
+			<name>Administrator</name>
+			<uri>http://vmbi42sp4:6405/biprws/infostore/12</uri>
+		</author>
+		<updated>2018-03-29T21:37:52.794Z</updated>
+		<link href="http://vmbi42sp4:6405/biprws/infostore/5457" rel="alternate" />
+		<content type="application/xml">
+			<attrs xmlns="http://www.sap.com/rws/bip">
+				<attr name="cuid" type="string">AXpyoryP_Z5BoXVoM2_3kWQ</attr>
+				<attr name="name" type="string">ZZ_Fold Unfold</attr>
+				<attr name="description" type="string"/>
+				<attr name="id" type="int32">5457</attr>
+				<attr name="type" type="string">Webi</attr>
+			</attrs>
+		</content>
+	</entry>
+	<entry>
+		<title type="text">ZZ_Input Controls</title>
+		<id>tag:sap.com,2010:bip-rs/AVOEBpPXOvpGhcrzzE_RAeY</id>
+		<author>
+			<name>Administrator</name>
+			<uri>http://vmbi42sp4:6405/biprws/infostore/12</uri>
+		</author>
+		<updated>2018-03-29T21:37:52.827Z</updated>
+		<link href="http://vmbi42sp4:6405/biprws/infostore/5455" rel="alternate" />
+		<content type="application/xml">
+			<attrs xmlns="http://www.sap.com/rws/bip">
+				<attr name="cuid" type="string">AVOEBpPXOvpGhcrzzE_RAeY</attr>
+				<attr name="name" type="string">ZZ_Input Controls</attr>
+				<attr name="description" type="string">Web Intelligence 4.0 sample
+Example of detailed report implementing input controls and element links</attr>
+				<attr name="id" type="int32">5455</attr>
+				<attr name="type" type="string">Webi</attr>
+			</attrs>
+		</content>
+	</entry>
+	<entry>
+		<title type="text">ZZ_Multiple Data Sources</title>
+		<id>tag:sap.com,2010:bip-rs/AQtkbbSqN4NOj3ydf.Sw1lY</id>
+		<author>
+			<name>Administrator</name>
+			<uri>http://vmbi42sp4:6405/biprws/infostore/12</uri>
+		</author>
+		<updated>2018-03-29T21:37:53.012Z</updated>
+		<link href="http://vmbi42sp4:6405/biprws/infostore/5451" rel="alternate" />
+		<content type="application/xml">
+			<attrs xmlns="http://www.sap.com/rws/bip">
+				<attr name="cuid" type="string">AQtkbbSqN4NOj3ydf.Sw1lY</attr>
+				<attr name="name" type="string">ZZ_Multiple Data Sources</attr>
+				<attr name="description" type="string"/>
+				<attr name="id" type="int32">5451</attr>
+				<attr name="type" type="string">Webi</attr>
+			</attrs>
+		</content>
+	</entry>
+	<entry>
+		<title type="text">ZZ_Rio Games 2016</title>
+		<id>tag:sap.com,2010:bip-rs/AXTNF1xFAkhGo7.R95Bv_Bs</id>
+		<author>
+			<name>Administrator</name>
+			<uri>http://vmbi42sp4:6405/biprws/infostore/12</uri>
+		</author>
+		<updated>2018-03-29T21:37:52.465Z</updated>
+		<link href="http://vmbi42sp4:6405/biprws/infostore/9478" rel="alternate" />
+		<content type="application/xml">
+			<attrs xmlns="http://www.sap.com/rws/bip">
+				<attr name="cuid" type="string">AXTNF1xFAkhGo7.R95Bv_Bs</attr>
+				<attr name="name" type="string">ZZ_Rio Games 2016</attr>
+				<attr name="description" type="string"/>
+				<attr name="id" type="int32">9478</attr>
+				<attr name="type" type="string">Webi</attr>
+			</attrs>
+		</content>
+	</entry>
+	<entry>
+		<title type="text">ZZ_Sales Analysis Dashboard</title>
+		<id>tag:sap.com,2010:bip-rs/AXb0jR1xevFLlX5hpPUGu.4</id>
+		<author>
+			<name>Administrator</name>
+			<uri>http://vmbi42sp4:6405/biprws/infostore/12</uri>
+		</author>
+		<updated>2018-03-29T21:37:52.730Z</updated>
+		<link href="http://vmbi42sp4:6405/biprws/infostore/5458" rel="alternate" />
+		<content type="application/xml">
+			<attrs xmlns="http://www.sap.com/rws/bip">
+				<attr name="cuid" type="string">AXb0jR1xevFLlX5hpPUGu.4</attr>
+				<attr name="name" type="string">ZZ_Sales Analysis Dashboard</attr>
+				<attr name="description" type="string"/>
+				<attr name="id" type="int32">5458</attr>
+				<attr name="type" type="string">Webi</attr>
+			</attrs>
+		</content>
+	</entry>
+</feed>

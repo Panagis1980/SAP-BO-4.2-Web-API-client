@@ -147,15 +147,34 @@ namespace SAP_BO_4._2_Web_API_client
                 return;
             }
 
+            if (!Rbtn_webi41.Checked && !Rbtn_webi4x.Checked)
+            {
+                TraceBox.Text += "Please select Webi version to continue...\r\n";
+                return;
+            }
+
             TraceBox.Text += "Attempting HTTP Request...\r\n";
 
             try
             {
-                SAPDocumentList DocList = docOperation.GetDocumentList(TxtFolderId.Text);
+                SAPDocumentList DocList;
+                if (Rbtn_webi4x.Checked)
+                {
+                    DocList = docOperation.GetDocumentList(TxtFolderId.Text);
+                } else
+                {
+                    DocList = docOperation.GetDocumentListInfostore(TxtFolderId.Text);
+                }
+                //MessageBox.Show("Pass 1");
+                //MessageBox.Show(DocList.entries.Count.ToString());
                 ExcelExport xlsx = new ExcelExport(DocList);
+                //MessageBox.Show("Pass 2");
                 FHSQLExport fhsql = new FHSQLExport(DocList);
+                //MessageBox.Show("Pass 3");
                 xlsx.GenerateExcel(TxtFilename.Text);
+                //MessageBox.Show("Pass 21");
                 fhsql.ExportFHSQL(TxtFilename.Text.Replace("xlsx", "fhsql"));
+                //MessageBox.Show("Pass 31");
                 TraceBox.Text += "Closing HTTP Request...\r\n";
             }
             catch
@@ -177,6 +196,26 @@ namespace SAP_BO_4._2_Web_API_client
             //{
                 TxtFilename.Text = TxtFolderId.Text + "_Webi_List.xlsx";
             //}
+        }
+
+        private void Rbtn_webi4x_CheckedChanged(object sender, EventArgs e)
+        {
+            Rbtn_webi41.Checked = false;
+        }
+
+        private void Rbtn_webi41_CheckedChanged(object sender, EventArgs e)
+        {
+            Rbtn_webi4x.Checked = false;
+        }
+
+        private void Rbtn_webi4x_Click(object sender, EventArgs e)
+        {
+            Rbtn_webi41.Checked = false;
+        }
+
+        private void Rbtn_webi41_Click(object sender, EventArgs e)
+        {
+            Rbtn_webi4x.Checked = false;
         }
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1253"?>
+<xs:schema xmlns:tns="http://www.sap.com/rws/bip" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.sap.com/rws/bip" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="attrs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="attr">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="name" type="xs:string" use="required" />
+                <xs:attribute name="type" type="xs:string" use="required" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

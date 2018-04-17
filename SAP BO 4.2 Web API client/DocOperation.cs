@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace SAP_BO_4._2_Web_API_client
 {
@@ -49,6 +51,76 @@ namespace SAP_BO_4._2_Web_API_client
             }
         }
 
+        public SAPDocumentList GetDocumentListInfostore(string FolderId)
+        {
+            SAPDocumentList docList = new SAPDocumentList();
+            string send = string.Empty;
+            string recv = string.Empty;
+            XmlDocument XmlResponse = new XmlDocument();
+          
+            try
+            {
+                webAPIconnect.Send("GET", "/biprws/infostore/"+ FolderId + "/children", send, "application/xml", "application/xml");
+                TextReader reader = new StringReader(webAPIconnect.responseContent);
+                XmlSerializer serializer = new XmlSerializer(typeof(feed));
+                feed deserializedEntries = serializer.Deserialize(reader) as feed;
+                foreach (var entry in deserializedEntries.entry)
+                {
+                    SAPDocument doc = new SAPDocument();
+                    string cuid        = string.Empty;
+                    string name        = string.Empty;
+                    string description = string.Empty;
+                    string id          = string.Empty;      
+                    string type        = string.Empty;
+
+                    foreach ( var attr in entry.content.attrs)
+                    {
+                        switch (attr.name) {
+                            case "type":
+                                type = attr.Value;
+                                break;
+                            case "name":
+                                name = attr.Value;
+                                break;
+                            case "description":
+                                description = attr.Value;
+                                break;
+                            case "id":
+                                id = attr.Value;
+                                break;
+                            case "cuid":
+                                cuid = attr.Value;
+                                break;
+                            default:
+                                break;
+                        }
+                        
+                    }
+
+                    if (type.Equals("Webi")){
+                        docList.entries.Add(GetDocumentInfo(id));
+                    } else if (type.Equals("Folder"))
+                    {
+                        SAPDocumentList docListInner = GetDocumentListInfostore(id);
+                        foreach (SAPDocument docInner in docListInner)
+                        {
+                            docList.entries.Add(docInner);
+                        }
+                        
+                    }
+                    
+                }
+
+                return docList;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                return null;
+            }
+        }
+
         public string[] GetFolderDetails(string FolderId)
         {
             string[] FolderDetails = new string[2];
@@ -71,6 +143,38 @@ namespace SAP_BO_4._2_Web_API_client
                 }
             }
             return FolderDetails;
+        }
+        public SAPDocument GetDocumentInfo(string DocumentId)
+        {
+            SAPDocument doc = new SAPDocument();
+            string connName = string.Empty;
+            string send = string.Empty;
+            XmlDocument XmlResponse = new XmlDocument();
+
+            webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + DocumentId, send, "application/xml", "application/xml");
+            XmlResponse.LoadXml(webAPIconnect.responseContent);
+
+            XmlNode document = XmlResponse.GetElementsByTagName("document").Item(0);
+            XmlNodeList properties = document.ChildNodes;
+            foreach (XmlNode child in properties)
+            {
+                switch (child.Name)
+                {
+                    case "id":
+                        doc.SI_ID = child.InnerText;
+                        break;
+                    case "name":
+                        doc.SI_NAME = child.InnerText;
+                        break;
+                    case "path":
+                        doc.SI_PATH = child.InnerText;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            doc.DataProviderList = GetDocumentDataproviders(doc);
+            return doc;
         }
 
         public string GetDocumentPath(string ancestorFolder, string DocumentId)
@@ -197,25 +301,6 @@ namespace SAP_BO_4._2_Web_API_client
             }
             return connName;
 
-        }
-
-        public SAPDocumentList GetDocuments(string FolderId)
-        {
-            SAPDocumentList docList = GetDocumentList(FolderId);
-
-            foreach (SAPDocument doc in docList)
-            {
-                    foreach (SAPDataProvider dp in doc.DataProviderList)
-                    {
-                        Console.WriteLine(dp.ID);
-                        Console.WriteLine(dp.Name);
-                        Console.WriteLine(dp.DataSourceName);
-                        Console.WriteLine(dp.sql);
-
-                    }
-            }
-
-            return docList;
         }
     }
 }

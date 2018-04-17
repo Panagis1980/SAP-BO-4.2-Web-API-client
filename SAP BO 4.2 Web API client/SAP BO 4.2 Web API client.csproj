@@ -102,6 +102,7 @@
   <ItemGroup>
     <Compile Include="ExcelExport.cs" />
     <Compile Include="FHSQLExport.cs" />
+    <Compile Include="infostore\infostore.cs" />
     <Compile Include="SAPDataProvider.cs" />
     <Compile Include="SAPDocument.cs" />
     <Compile Include="DocOperation.cs" />
@@ -193,5 +194,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

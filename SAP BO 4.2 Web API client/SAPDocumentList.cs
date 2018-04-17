@@ -11,6 +11,7 @@ namespace SAP_BO_4._2_Web_API_client
     {
         public SAPDocumentList()
         {
+            this.entries = new List<SAPDocument>();
         }
 
         public List<SAPDocument> entries { get; set; }
