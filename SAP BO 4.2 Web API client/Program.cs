@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +15,10 @@ namespace SAP_BO_4._2_Web_API_client
         [STAThread]
         static void Main()
         {
+            TraceListener listener = new DelimitedListTraceListener(@"debugfile.txt");
+            // Add listener.
+            Debug.Listeners.Add(listener);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

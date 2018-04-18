@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Xml;
 
@@ -23,6 +25,9 @@ namespace SAP_BO_4._2_Web_API_client
             this.password = password;
             this.logonToken = string.Empty;
             this.URI = URI;
+            // Write and flush.
+            Debug.WriteLine(this.URI + " " + this.userName+" "+ this.password + " " + this.logonToken);
+            Debug.Flush();
         }
 
         public WebAPIconnection()
@@ -175,8 +180,10 @@ namespace SAP_BO_4._2_Web_API_client
                     requestStream.Write(bytes, 0, bytes.Length);
                     requestStream.Close();
                 }
-                catch
+                catch (Exception e)
                 {
+                    Debug.WriteLine(e.Message);
+                    Debug.Flush();
                     return 2;
                 }
             }
@@ -198,8 +205,10 @@ namespace SAP_BO_4._2_Web_API_client
                     return 3;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
+                Debug.Flush();
                 return 4;
             }
 
@@ -237,8 +246,11 @@ namespace SAP_BO_4._2_Web_API_client
                     requestStream.Write(bytes, 0, bytes.Length);
                     requestStream.Close();
                 }
-                catch
+                catch (Exception SendExc)
                 {
+                    // Write and flush.
+                    Debug.WriteLine(SendExc.Message);
+                    Debug.Flush();
                     return 2;
                 }
             }
@@ -267,8 +279,10 @@ namespace SAP_BO_4._2_Web_API_client
                     return 3;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
+                Debug.Flush();
                 return 4;
             }
 

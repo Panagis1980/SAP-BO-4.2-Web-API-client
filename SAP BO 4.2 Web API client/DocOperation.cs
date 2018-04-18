@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
@@ -45,8 +46,11 @@ namespace SAP_BO_4._2_Web_API_client
 
                 return docList;
 
-            } catch
+            } catch (Exception e)
             {
+                Debug.WriteLine(recv);
+                Debug.WriteLine(e.Message);
+                Debug.Flush();
                 return null;
             }
         }
@@ -116,7 +120,8 @@ namespace SAP_BO_4._2_Web_API_client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
+                Debug.Flush();
                 return null;
             }
         }
@@ -127,22 +132,32 @@ namespace SAP_BO_4._2_Web_API_client
             string send = string.Empty;            
             XmlDocument XmlResponse = new XmlDocument();
 
-            webAPIconnect.Send("GET", "/biprws/v1/folders/"+ FolderId, send, "application/xml", "application/xml");
-            XmlResponse.LoadXml(webAPIconnect.responseContent);
-
-            XmlNodeList elemList = XmlResponse.GetElementsByTagName("attr");
-            foreach (XmlNode node in elemList)
+            try
             {
-                if (node.Attributes["name"].Value.Equals("name"))
+                webAPIconnect.Send("GET", "/biprws/v1/folders/" + FolderId, send, "application/xml", "application/xml");
+                XmlResponse.LoadXml(webAPIconnect.responseContent);
+
+                XmlNodeList elemList = XmlResponse.GetElementsByTagName("attr");
+                foreach (XmlNode node in elemList)
                 {
-                    FolderDetails[0] = node.InnerText;
+                    if (node.Attributes["name"].Value.Equals("name"))
+                    {
+                        FolderDetails[0] = node.InnerText;
+                    }
+                    else if (node.Attributes["name"].Value.Equals("parentid"))
+                    {
+                        FolderDetails[1] = node.InnerText;
+                    }
                 }
-                else if (node.Attributes["name"].Value.Equals("parentid"))
-                {
-                    FolderDetails[1] = node.InnerText;
-                }
+                return FolderDetails;
             }
-            return FolderDetails;
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                Debug.Flush();
+                return null;
+            }
+
         }
         public SAPDocument GetDocumentInfo(string DocumentId)
         {
@@ -151,30 +166,40 @@ namespace SAP_BO_4._2_Web_API_client
             string send = string.Empty;
             XmlDocument XmlResponse = new XmlDocument();
 
-            webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + DocumentId, send, "application/xml", "application/xml");
-            XmlResponse.LoadXml(webAPIconnect.responseContent);
-
-            XmlNode document = XmlResponse.GetElementsByTagName("document").Item(0);
-            XmlNodeList properties = document.ChildNodes;
-            foreach (XmlNode child in properties)
+            try
             {
-                switch (child.Name)
+                webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + DocumentId, send, "application/xml", "application/xml");
+                XmlResponse.LoadXml(webAPIconnect.responseContent);
+
+                XmlNode document = XmlResponse.GetElementsByTagName("document").Item(0);
+                XmlNodeList properties = document.ChildNodes;
+                foreach (XmlNode child in properties)
                 {
-                    case "id":
-                        doc.SI_ID = child.InnerText;
-                        break;
-                    case "name":
-                        doc.SI_NAME = child.InnerText;
-                        break;
-                    case "path":
-                        doc.SI_PATH = child.InnerText;
-                        break;
-                    default:
-                        break;
+                    switch (child.Name)
+                    {
+                        case "id":
+                            doc.SI_ID = child.InnerText;
+                            break;
+                        case "name":
+                            doc.SI_NAME = child.InnerText;
+                            break;
+                        case "path":
+                            doc.SI_PATH = child.InnerText;
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                doc.DataProviderList = GetDocumentDataproviders(doc);
+                return doc;
             }
-            doc.DataProviderList = GetDocumentDataproviders(doc);
-            return doc;
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                Debug.Flush();
+                return null;
+            }
+
         }
 
         public string GetDocumentPath(string ancestorFolder, string DocumentId)
@@ -183,28 +208,37 @@ namespace SAP_BO_4._2_Web_API_client
             string parentFolder = string.Empty;
             string send = string.Empty;
             XmlDocument XmlResponse = new XmlDocument();
-
-            webAPIconnect.Send("GET", "/biprws/v1/documents/" + DocumentId, send, "application/xml", "application/xml");
-            XmlResponse.LoadXml(webAPIconnect.responseContent);
-
-            XmlNodeList elemList = XmlResponse.GetElementsByTagName("attr");
-            foreach (XmlNode node in elemList)
+            try
             {
-                if (node.Attributes["name"].Value.Equals("parentid"))
+                webAPIconnect.Send("GET", "/biprws/v1/documents/" + DocumentId, send, "application/xml", "application/xml");
+                XmlResponse.LoadXml(webAPIconnect.responseContent);
+
+                XmlNodeList elemList = XmlResponse.GetElementsByTagName("attr");
+                foreach (XmlNode node in elemList)
                 {
-                    parentFolder = node.InnerText;
-                    break;
+                    if (node.Attributes["name"].Value.Equals("parentid"))
+                    {
+                        parentFolder = node.InnerText;
+                        break;
+                    }
                 }
+
+                while (!parentFolder.Equals(ancestorFolder))
+                {
+                    string[] details = GetFolderDetails(parentFolder);
+                    path += details[0] + "/";
+                    parentFolder = details[1];
+                }
+                path = GetFolderDetails(ancestorFolder)[0] + "/" + path;
+                return path;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                Debug.Flush();
+                return null;
             }
 
-            while (!parentFolder.Equals(ancestorFolder))
-            {
-                string[] details = GetFolderDetails(parentFolder);
-                path += details[0] + "/";
-                parentFolder = details[1];
-            }
-            path = GetFolderDetails(ancestorFolder)[0] + "/" + path;
-            return path;
         }
 
         public List<SAPDataProvider> GetDocumentDataproviders(SAPDocument doc)

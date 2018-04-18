@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -135,6 +136,7 @@ namespace SAP_BO_4._2_Web_API_client
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
+            SAPDocumentList DocList;
             if (webAPIconnect == null || !webAPIconnect.isLoggedOn())
             {
                 TraceBox.Text += "Not logged on. Could not fetch document parameters.\r\n";
@@ -157,55 +159,77 @@ namespace SAP_BO_4._2_Web_API_client
 
             try
             {
-                SAPDocumentList DocList;
                 if (Rbtn_webi4x.Checked)
                 {
                     DocList = docOperation.GetDocumentList(TxtFolderId.Text);
-                } else
+                }
+                else
                 {
                     DocList = docOperation.GetDocumentListInfostore(TxtFolderId.Text);
                 }
-                //MessageBox.Show("Pass 1");
-                //MessageBox.Show(DocList.entries.Count.ToString());
+            }
+            catch (Exception exc)
+            {
+                Debug.WriteLine(exc.Message);
+                Debug.Flush();
+                TraceBox.Text += "Error in Document List Fetch...\r\n";
+                TraceBox.Text += "Cannot get Document or Folder ...\r\n";
+                return;
+            }
+
+            try
+            {
                 ExcelExport xlsx = new ExcelExport(DocList);
-                //MessageBox.Show("Pass 2");
-                FHSQLExport fhsql = new FHSQLExport(DocList);
-                //MessageBox.Show("Pass 3");
                 xlsx.GenerateExcel(TxtFilename.Text);
-                //MessageBox.Show("Pass 21");
-                fhsql.ExportFHSQL(TxtFilename.Text.Replace("xlsx", "fhsql"));
-                //MessageBox.Show("Pass 31");
                 TraceBox.Text += "Closing HTTP Request...\r\n";
             }
-            catch
+            catch (Exception exc)
             {
-                TraceBox.Text += "Error in HTTP Request...\r\n";
-                TraceBox.Text += "Cannot get Document or Folder ...\r\n";
+                Debug.WriteLine(exc.Message);
+                Debug.Flush();
+                TraceBox.Text += "Excel creation failed...\r\n";
+                TraceBox.Text += "Attempting CSV...\r\n";
+                try
+                {
+                    CSVExport csv = new CSVExport(DocList);
+                    csv.ExportReportList(TxtFilename.Text.Replace("xlsx", "csv"));
+                }
+                catch (Exception CSVexc)
+                {
+                    Debug.WriteLine(CSVexc.Message);
+                    Debug.Flush();
+                    TraceBox.Text += "CSV creation failed...\r\n";
+                    return;
+                }                
+            }
+
+            try {
+                FHSQLExport fhsql = new FHSQLExport(DocList);
+                fhsql.ExportFHSQL(TxtFilename.Text.Replace("xlsx", "fhsql"));
+                TraceBox.Text += "Closing HTTP Request...\r\n";
+            }
+            catch (Exception exc)
+            {
+                Debug.WriteLine(exc.Message);
+                Debug.Flush();
+                MessageBox.Show("Error in FHSQL save... \r\n" + "Error Code:" + exc.Message);
+                return;
             }
         }
 
         private void TxtFolderId_TextChanged(object sender, EventArgs e)
         {
-            //if (webAPIconnect == null || !webAPIconnect.isLoggedOn())
-            //{
-            //    TraceBox.Text += "Not logged on. Could not fetch folder parameters.\r\n";
-            //    return;
-            //}
-            //string[] folderDetails = docOperation.GetFolderDetails(TxtFolderId.Text);
-            //if (folderDetails[0] != null)
-            //{
                 TxtFilename.Text = TxtFolderId.Text + "_Webi_List.xlsx";
-            //}
         }
 
         private void Rbtn_webi4x_CheckedChanged(object sender, EventArgs e)
         {
-            Rbtn_webi41.Checked = false;
+
         }
 
         private void Rbtn_webi41_CheckedChanged(object sender, EventArgs e)
         {
-            Rbtn_webi4x.Checked = false;
+
         }
 
         private void Rbtn_webi4x_Click(object sender, EventArgs e)
