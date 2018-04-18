@@ -9,7 +9,7 @@ Column delimiter is ```*****************{LF} ```
 and Row delimiter is ```#################{LF}```
 Watch to make the FHSQL column to be Text and not VARCHAR as it can be realyyyyyyyy Loooong!!!!
  
-The base of the export is always a folder. All Webi documents below this folder will be exported along with their information and dataprovider type type like :  
+The base of the export is always a folder. All Webi documents below this folder will be exported along with their information and dataprovider type like :  
 * Universe (unv & unx)
 * Relational  
 
