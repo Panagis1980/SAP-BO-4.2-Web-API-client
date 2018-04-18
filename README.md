@@ -2,7 +2,7 @@
 A nice functional SAP Business Objects 4.x WebAPI client for testing requests and exporting Report List, DataProviders and FHSQL under folderID. It works in the Java version, now we turn .NET
 Apart from the ability to experiment with the API calls directly checking the response messages, document export is provided given an ancestor folder.  
 
-The FHSQL is exported in an SSIS importable form so the user can import it in SQL server and through queries on the FHSQL.
+The FHSQL is exported in an SSIS importable form so the user can import it in SQL server and throw queries on the FHSQL.
 Column delimiter is ```*****************{LF} ```
 and Row delimiter is ```#################{LF}```
 Watch to make the FHSQL column to be Text and not VARCHAR as it can be realyyyyyyyy Loooong!!!!
