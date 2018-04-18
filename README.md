@@ -1,5 +1,6 @@
-# SAP-BO-4.2-Web-API-client
+# SAP BO 4.2 Web API client for RESTWS
 Incomplete yet functional SAP Business Objects 4.x WebAPI client for testing requests and exporting Report List, DataProviders and FHSQL under folderID. It works in the Java version, now we turn .NET
+Apart from the ability to experiment with the API calls directly checking the response messages, document export is provided given an ancestor folder.  
 
 The FHSQL is exported in an SSIS importable form so the user can import it in SQL server and through queries on the FHSQL.
 
