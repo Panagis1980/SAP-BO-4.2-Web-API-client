@@ -20,6 +20,6 @@ The Report list will be exported in Excel file if you have Microsoft Office inst
 
 I hope you enjoy this application as I did in a huge project of report migration... :)
 
-Panagis Loukatos ! 2018
+Panagis ! 2018
 
 Many thanks to Argy AEK mono Havana banana Katw ston Peiraia and to MOTOC Koli Adis Abeba !
