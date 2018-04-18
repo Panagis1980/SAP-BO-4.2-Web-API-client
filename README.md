@@ -5,7 +5,7 @@ Apart from the ability to experiment with the API calls directly checking the re
 The FHSQL is exported in an SSIS importable form so the user can import it in SQL server and through queries on the FHSQL.
 Column delimiter is ```*****************{LF} ```
 and Row delimiter is ```#################{LF}```
-Wathc to make the FHSQL column to be Text and not VARCHAR as it can be realyyyyyyyy Loooong!!!!
+Watch to make the FHSQL column to be Text and not VARCHAR as it can be realyyyyyyyy Loooong!!!!
  
 The base of the export is always a folder. All Webi documents below this folder will be exported along with their information and dataprovider type type like :  
 * Universe (unv & unx)
