@@ -1,6 +1,6 @@
 # SAP BO 4.2 Web API client for RESTWS
 A nice functional SAP Business Objects 4.x WebAPI client for testing requests and exporting Report List, DataProviders and FHSQL under folderID. It works in the Java version, now we turn .NET...  
-.NET 4.5.2 is prerequisite.  
+.NET 4.0 is prerequisite.  
 
 Apart from the ability to experiment with the API calls directly checking the response messages, document export is provided given an ancestor folder.  
 
