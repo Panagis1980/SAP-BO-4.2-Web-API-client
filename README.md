@@ -16,9 +16,9 @@ The base of the export is always a folder. All Webi documents below this folder 
 Also the Dataprovider connection name is exported for easily finding affected reports from changes.
 
 For 4.2 and above, I use /cmsquery url while for 4.1 I use /infostore.
-The Report list will be exported in Excel file if you have Microsoft Office installed. If not, the application will export automatically to CSV, readable by Excel directly wit ; as a delimiter.
+The Report list will be exported in Excel file if you have Microsoft Office installed. If not, the application will export automatically to CSV, readable by Excel directly with ";" as a delimiter.
 
-I hope you enjoy this application as I did in a huge project of report migration... :)
+I hope you enjoy this application as I did, in a huge project of report migration... :)
 
 Panagis ! 2018
 
