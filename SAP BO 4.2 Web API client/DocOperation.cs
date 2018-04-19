@@ -64,66 +64,83 @@ namespace SAP_BO_4._2_Web_API_client
           
             try
             {
-                webAPIconnect.Send("GET", "/biprws/infostore/"+ FolderId + "/children", send, "application/xml", "application/xml");
-                TextReader reader = new StringReader(webAPIconnect.responseContent);
+                Debug.WriteLine("In Document Fetch from infostore...");
+                Debug.Flush();
+                webAPIconnect.Send("GET", "/biprws/infostore/"+ FolderId + "/children", send, "application/xml", "application/xml");              
+                TextReader reader = new StringReader(webAPIconnect.responseContent);                
                 XmlSerializer serializer = new XmlSerializer(typeof(feed));
                 feed deserializedEntries = serializer.Deserialize(reader) as feed;
-                foreach (var entry in deserializedEntries.entry)
+                if (deserializedEntries.entry == null)
                 {
-                    SAPDocument doc = new SAPDocument();
-                    string cuid        = string.Empty;
-                    string name        = string.Empty;
-                    string description = string.Empty;
-                    string id          = string.Empty;      
-                    string type        = string.Empty;
-
-                    foreach ( var attr in entry.content.attrs)
+                    Debug.WriteLine("Null deserialized Entries");
+                    Debug.Flush();
+                } else
+                {
+                    Debug.WriteLine("Deserialized Entries:" + deserializedEntries.entry.Length);
+                    Debug.Flush();
+                    foreach (var entry in deserializedEntries.entry)
                     {
-                        switch (attr.name) {
-                            case "type":
-                                type = attr.Value;
-                                break;
-                            case "name":
-                                name = attr.Value;
-                                break;
-                            case "description":
-                                description = attr.Value;
-                                break;
-                            case "id":
-                                id = attr.Value;
-                                break;
-                            case "cuid":
-                                cuid = attr.Value;
-                                break;
-                            default:
-                                break;
-                        }
-                        
-                    }
+                        SAPDocument doc = new SAPDocument();
+                        string cuid = string.Empty;
+                        string name = string.Empty;
+                        string description = string.Empty;
+                        string id = string.Empty;
+                        string type = string.Empty;
 
-                    if (type.Equals("Webi")){
-                        docList.entries.Add(GetDocumentInfo(id));
-                    } else if (type.Equals("Folder"))
-                    {
-                        SAPDocumentList docListInner = GetDocumentListInfostore(id);
-                        foreach (SAPDocument docInner in docListInner)
+                        foreach (var attr in entry.content.attrs)
                         {
-                            docList.entries.Add(docInner);
+                            switch (attr.name)
+                            {
+                                case "type":
+                                    type = attr.Value;
+                                    break;
+                                case "name":
+                                    name = attr.Value;
+                                    break;
+                                case "description":
+                                    description = attr.Value;
+                                    break;
+                                case "id":
+                                    id = attr.Value;
+                                    break;
+                                case "cuid":
+                                    cuid = attr.Value;
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                        }
+
+                        if (type.Equals("Webi"))
+                        {
+                            docList.entries.Add(GetDocumentInfo(id));
+                            Debug.WriteLine("Doc ID");
+                            Debug.Flush();
+                        }
+                        else if (type.Equals("Folder"))
+                        {
+                            SAPDocumentList docListInner = GetDocumentListInfostore(id);
+                            Debug.WriteLine("Folder ID");
+                            Debug.Flush();
+                            foreach (SAPDocument docInner in docListInner)
+                            {
+                                docList.entries.Add(docInner);
+                            }
+
                         }
                         
                     }
-                    
                 }
-
-                return docList;
-
             }
             catch (Exception e)
             {
+                Debug.WriteLine("Error in document fetch from Infostore:" + e.StackTrace);
+                Debug.WriteLine("Response:" + webAPIconnect.responseContent);
                 Debug.WriteLine(e.Message);
                 Debug.Flush();
-                return null;
             }
+            return docList;
         }
 
         public string[] GetFolderDetails(string FolderId)

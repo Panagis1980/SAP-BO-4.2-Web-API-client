@@ -179,6 +179,8 @@ namespace SAP_BO_4._2_Web_API_client
 
             try
             {
+                Debug.WriteLine("Number of Documents to export:"+ DocList.entries.Count.ToString());
+                Debug.Flush();
                 ExcelExport xlsx = new ExcelExport(DocList);
                 xlsx.GenerateExcel(TxtFilename.Text);
                 TraceBox.Text += "Closing HTTP Request...\r\n";

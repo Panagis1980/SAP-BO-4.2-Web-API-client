@@ -37,7 +37,6 @@ namespace SAP_BO_4._2_Web_API_client
 
                 //Close the file
                 sw.Close();
-
         }
 
     }
