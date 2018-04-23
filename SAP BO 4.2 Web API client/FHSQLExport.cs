@@ -27,36 +27,36 @@ namespace SAP_BO_4._2_Web_API_client
             //Pass the filepath and filename to the StreamWriter Constructor
                 StreamWriter sw = new StreamWriter(Filename);
 
-                sw.WriteLine("ReportID");
-                sw.WriteLine("*****************");
-                sw.WriteLine("DataProviderID");
-                sw.WriteLine("*****************");
-                sw.WriteLine("DataProviderName");
-                sw.WriteLine("*****************");
-                sw.WriteLine("ConnectionName");
-                sw.WriteLine("*****************");
-                sw.WriteLine("ConnectionType");
-                sw.WriteLine("*****************");
-                sw.WriteLine("FHSQL");
-                sw.WriteLine("#################");
+                sw.Write("ReportID");
+                sw.Write("*****************");
+                sw.Write("DataProviderID");
+                sw.Write("*****************");
+                sw.Write("DataProviderName");
+                sw.Write("*****************");
+                sw.Write("ConnectionName");
+                sw.Write("*****************");
+                sw.Write("ConnectionType");
+                sw.Write("*****************");
+                sw.Write("FHSQL");
+                sw.Write("#################");
 
                 foreach (SAPDocument doc in DocList)
                 {
                     //Write a line of text
                     foreach (SAPDataProvider dp in doc.DataProviderList)
                     {
-                        sw.WriteLine(doc.SI_ID);
-                        sw.WriteLine("*****************");
-                        sw.WriteLine(dp.ID);
-                        sw.WriteLine("*****************");
-                        sw.WriteLine(dp.Name);
-                        sw.WriteLine("*****************");
-                        sw.WriteLine(dp.DataSourceName);
-                        sw.WriteLine("*****************");
-                        sw.WriteLine(dp.DataSourceType);
-                        sw.WriteLine("*****************");
-                        sw.WriteLine(dp.sql);
-                        sw.WriteLine("#################");
+                        sw.Write(doc.SI_ID);
+                        sw.Write("*****************");
+                        sw.Write(dp.ID);
+                        sw.Write("*****************");
+                        sw.Write(dp.Name);
+                        sw.Write("*****************");
+                        sw.Write(dp.DataSourceName);
+                        sw.Write("*****************");
+                        sw.Write(dp.DataSourceType);
+                        sw.Write("*****************");
+                        sw.Write(dp.sql);
+                        sw.Write("#################");
                     }
                 }
 

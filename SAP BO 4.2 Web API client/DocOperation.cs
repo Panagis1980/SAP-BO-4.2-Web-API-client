@@ -57,6 +57,8 @@ namespace SAP_BO_4._2_Web_API_client
 
         public SAPDocumentList GetDocumentListInfostore(string FolderId)
         {
+            Debug.WriteLine("In GetDocumentListInfostore  for folder:"+ FolderId);
+            Debug.Flush();
             SAPDocumentList docList = new SAPDocumentList();
             string send = string.Empty;
             string recv = string.Empty;
@@ -64,9 +66,9 @@ namespace SAP_BO_4._2_Web_API_client
           
             try
             {
-                Debug.WriteLine("In Document Fetch from infostore...");
+                Debug.WriteLine("Try...");
                 Debug.Flush();
-                webAPIconnect.Send("GET", "/biprws/infostore/"+ FolderId + "/children", send, "application/xml", "application/xml");              
+                webAPIconnect.Send("GET", "/biprws/infostore/"+ FolderId + "/children?pageSize=200", send, "application/xml", "application/xml");              
                 TextReader reader = new StringReader(webAPIconnect.responseContent);                
                 XmlSerializer serializer = new XmlSerializer(typeof(feed));
                 feed deserializedEntries = serializer.Deserialize(reader) as feed;
@@ -115,19 +117,19 @@ namespace SAP_BO_4._2_Web_API_client
                         if (type.Equals("Webi"))
                         {
                             docList.entries.Add(GetDocumentInfo(id));
-                            Debug.WriteLine("Doc ID");
+                            Debug.WriteLine("Doc ID:"+ id);
                             Debug.Flush();
                         }
                         else if (type.Equals("Folder"))
                         {
                             SAPDocumentList docListInner = GetDocumentListInfostore(id);
-                            Debug.WriteLine("Folder ID");
+                            Debug.WriteLine("Folder ID:"+ id);
+                            Debug.WriteLine("Inner list size:"+ docListInner.entries.Count.ToString());
                             Debug.Flush();
                             foreach (SAPDocument docInner in docListInner)
                             {
                                 docList.entries.Add(docInner);
                             }
-
                         }
                         
                     }
