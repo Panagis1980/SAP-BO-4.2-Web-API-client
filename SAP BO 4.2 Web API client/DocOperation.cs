@@ -311,6 +311,117 @@ namespace SAP_BO_4._2_Web_API_client
             return DPList;
         }
 
+        public List<SAPDataProvider> GetDataproviders(SAPDocument doc)
+        {
+
+            List<SAPDataProvider> DPList = new List<SAPDataProvider>();
+            string send = string.Empty;
+            XmlDocument XmlResponse = new XmlDocument();
+            Debug.WriteLine("/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders");
+            Debug.Flush();
+            webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders", send, "application/xml", "application/xml");
+            XmlResponse.LoadXml(webAPIconnect.responseContent);
+            Debug.WriteLine(webAPIconnect.responseContent);
+            Debug.Flush();
+            XmlNodeList elemList = XmlResponse.GetElementsByTagName("id");
+            if (elemList.Count > 0)
+            {
+                foreach (XmlNode node in elemList)
+                {
+                    SAPDataProvider dp = new SAPDataProvider();
+
+                    string DpId = node.InnerText;
+                    Debug.WriteLine("In GetDataProvider " + DpId + " for Document:" + doc.SI_NAME);
+                    Debug.Flush();
+                    try
+                    {
+                        Debug.WriteLine("/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders/" + DpId);
+                        webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders/" + DpId, send, "application/xml", "application/xml");
+                        TextReader reader = new StringReader(webAPIconnect.responseContent);
+                        XmlSerializer serializer = new XmlSerializer(typeof(dataprovider));
+                        dataprovider dpSerialized = serializer.Deserialize(reader) as dataprovider;
+                        if (dpSerialized == null)
+                        {
+                            Debug.WriteLine("Null dataprovider");
+                            Debug.Flush();
+                        }
+                        else
+                        {
+                            dp.ID = dpSerialized.id;
+                            dp.Name = dpSerialized.name;
+                            dp.DataSourceId = dpSerialized.dataSourceId.ToString();
+                            dp.DataSourceType = dpSerialized.dataSourceType;
+                            if (dpSerialized.properties != null)
+                            {
+                                foreach (var property in dpSerialized.properties)
+                                {
+                                    switch (property.key)
+                                    {
+                                        case "sql":
+                                            dp.sql = property.Value;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (dpSerialized.dataSourceType.Equals("fhsql"))
+                        {
+                            try
+                            {
+                                dp.DataSourceName = GetConnectionName(dp.DataSourceId);
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.WriteLine("Error in doc name:" + doc.SI_NAME);
+                                Debug.WriteLine(e.StackTrace);
+                                Debug.Flush();
+
+                            }
+                        }
+                        else
+                        {
+                            dp.DataSourceName = "No Connection name";
+                        }
+                        DPList.Add(dp);
+
+                    }
+                    catch (Exception exc)
+                    {
+                        Debug.WriteLine("Error in doc name:" + doc.SI_NAME);
+                        Debug.WriteLine(exc.StackTrace);
+                        Debug.Flush();
+                        dp.DataSourceName = "No Connection name";
+                    }
+                }
+            }
+            return DPList;
+        }
+
+        public void PurgeDataProviders(string DocId, string DpId, Boolean promptsAlso)
+        {
+            string connName = string.Empty;
+            string send = string.Empty;
+            XmlDocument XmlResponse = new XmlDocument();
+
+            try
+            {
+                webAPIconnect.Send("PUT", "/biprws/raylight/v1/documents/" + DocId + "/dataproviders/"+ DpId+ "?purge=true" +
+                    (promptsAlso ? "&purgeOptions=prompts" : ""), send, "application/xml", "application/xml");
+                XmlResponse.LoadXml(webAPIconnect.responseContent);
+
+                webAPIconnect.Send("PUT", "/biprws/raylight/v1/documents/" + DocId, send, "application/xml", "application/xml");
+                XmlResponse.LoadXml(webAPIconnect.responseContent);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                Debug.Flush();
+            }
+        }
+
         public string GetFHSQL(string DocId, string DpId)
         {
             string fhsql = string.Empty;
@@ -330,7 +441,6 @@ namespace SAP_BO_4._2_Web_API_client
                 }
             }
             return fhsql;
-
         }
 
         public string GetConnectionName(string ConnId)

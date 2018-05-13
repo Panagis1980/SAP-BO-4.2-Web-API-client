@@ -101,10 +101,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Serializers\DataProvider.cs" />
     <Compile Include="ExcelExport.cs" />
     <Compile Include="CSVExport.cs" />
     <Compile Include="FHSQLExport.cs" />
-    <Compile Include="infostore\infostore.cs" />
+    <Compile Include="Serializers\infostore.cs" />
     <Compile Include="SAPDataProvider.cs" />
     <Compile Include="SAPDocument.cs" />
     <Compile Include="DocOperation.cs" />

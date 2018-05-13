@@ -106,10 +106,6 @@ namespace SAP_BO_4._2_Web_API_client
                 TraceBox.Text += "==================================\r\n";
                 TraceBox.Text += recv.OuterXml.ToString() + "\r\n";
                 TraceBox.Text += "==================================\r\n";
-                TraceBox.Text += recv.InnerText + "\r\n";
-                TraceBox.Text += "==================================\r\n";
-                TraceBox.Text += recv.InnerXml + "\r\n";
-                TraceBox.Text += "==================================\r\n";
                 TraceBox.Text += "Request succesfully completed...\r\n";
                 TraceBox.Text += "==================================\r\n";
             } catch
@@ -136,7 +132,8 @@ namespace SAP_BO_4._2_Web_API_client
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
-            SAPDocumentList DocList;
+            SAPDocumentList DocList = new SAPDocumentList();
+
             if (webAPIconnect == null || !webAPIconnect.isLoggedOn())
             {
                 TraceBox.Text += "Not logged on. Could not fetch document parameters.\r\n";
@@ -157,25 +154,34 @@ namespace SAP_BO_4._2_Web_API_client
 
             TraceBox.Text += "Attempting HTTP Request...\r\n";
 
-            try
+            if (!TxtFolderId.Text.Equals(string.Empty))
             {
-                if (Rbtn_webi4x.Checked)
+                try
                 {
-                    DocList = docOperation.GetDocumentList(TxtFolderId.Text);
+                    if (Rbtn_webi4x.Checked)
+                    {
+                        DocList = docOperation.GetDocumentList(TxtFolderId.Text);
+                    }
+                    else
+                    {
+                        DocList = docOperation.GetDocumentListInfostore(TxtFolderId.Text);
+                    }
                 }
-                else
+                catch (Exception exc)
                 {
-                    DocList = docOperation.GetDocumentListInfostore(TxtFolderId.Text);
+                    Debug.WriteLine(exc.Message);
+                    Debug.Flush();
+                    TraceBox.Text += "Error in Document List Fetch...\r\n";
+                    TraceBox.Text += "Cannot get Document or Folder ...\r\n";
+                    return;
                 }
             }
-            catch (Exception exc)
+            else
             {
-                Debug.WriteLine(exc.Message);
-                Debug.Flush();
-                TraceBox.Text += "Error in Document List Fetch...\r\n";
-                TraceBox.Text += "Cannot get Document or Folder ...\r\n";
-                return;
+                DocList.entries.Add(docOperation.GetDocumentInfo(TxtDocId.Text));
             }
+
+            
 
             try
             {
@@ -242,6 +248,84 @@ namespace SAP_BO_4._2_Web_API_client
         private void Rbtn_webi41_Click(object sender, EventArgs e)
         {
             Rbtn_webi4x.Checked = false;
+        }
+
+        private void BtnPurge_Click(object sender, EventArgs e)
+        {
+            SAPDocumentList DocList = new SAPDocumentList();
+
+            if (webAPIconnect == null || !webAPIconnect.isLoggedOn())
+            {
+                TraceBox.Text += "Not logged on. Could not fetch document parameters.\r\n";
+                return;
+            }
+
+            if (!(!TxtFolderId.Text.Equals(string.Empty) ^ !TxtDocId.Text.Equals(string.Empty)))
+            {
+                TraceBox.Text += "Please choose either Document or Folder for export\r\n";
+                return;
+            }
+
+            if (!Rbtn_webi41.Checked && !Rbtn_webi4x.Checked)
+            {
+                TraceBox.Text += "Please select Webi version to continue...\r\n";
+                return;
+            }
+
+            TraceBox.Text += "Attempting HTTP Request...\r\n";
+
+            if (!TxtFolderId.Text.Equals(string.Empty))
+            {
+                try
+                {
+                    if (Rbtn_webi4x.Checked)
+                    {
+                        DocList = docOperation.GetDocumentList(TxtFolderId.Text);
+                    }
+                    else
+                    {
+                        DocList = docOperation.GetDocumentListInfostore(TxtFolderId.Text);
+                    }
+                }
+                catch (Exception exc)
+                {
+                    Debug.WriteLine(exc.Message);
+                    Debug.Flush();
+                    TraceBox.Text += "Error in Document List Fetch...\r\n";
+                    TraceBox.Text += "Cannot get Document or Folder ...\r\n";
+                    return;
+                }
+            }
+            else
+            {
+                DocList.entries.Add(docOperation.GetDocumentInfo(TxtDocId.Text));
+            }
+
+            try
+            {
+                Debug.WriteLine("Number of Documents to purge:" + DocList.entries.Count.ToString());
+                TraceBox.Text += "Number of Documents to purge:" + DocList.entries.Count.ToString() + "\r\n";
+                foreach (SAPDocument doc in DocList)
+                {
+                    foreach (SAPDataProvider dp in doc.DataProviderList)
+                    {
+                        docOperation.PurgeDataProviders(doc.SI_ID,dp.ID,true);
+
+                        if (webAPIconnect.responseContent.Contains("success"))
+                        {
+                            TraceBox.Text += "Success... \r\n";
+                        }
+                    }
+                }
+                TraceBox.Text += "Closing HTTP Request...\r\n";
+            }
+            catch (Exception exc)
+            {
+                Debug.WriteLine(exc.Message);
+                Debug.Flush();
+                MessageBox.Show("Error in Document Purge... \r\n" + "Error Code:" + exc.Message);
+                return;
+            }
         }
     }
 }

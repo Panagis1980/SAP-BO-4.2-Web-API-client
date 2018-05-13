@@ -49,6 +49,8 @@
             this.LblRequest = new System.Windows.Forms.Label();
             this.TxtRequest = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.Rbtn_webi4x = new System.Windows.Forms.RadioButton();
+            this.Rbtn_webi41 = new System.Windows.Forms.RadioButton();
             this.BtnBrowse = new System.Windows.Forms.Button();
             this.BtnExport = new System.Windows.Forms.Button();
             this.LblFilename = new System.Windows.Forms.Label();
@@ -58,8 +60,7 @@
             this.LblDocId = new System.Windows.Forms.Label();
             this.TxtDocId = new System.Windows.Forms.TextBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.Rbtn_webi41 = new System.Windows.Forms.RadioButton();
-            this.Rbtn_webi4x = new System.Windows.Forms.RadioButton();
+            this.BtnPurge = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -283,6 +284,7 @@
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.BtnPurge);
             this.groupBox3.Controls.Add(this.Rbtn_webi4x);
             this.groupBox3.Controls.Add(this.Rbtn_webi41);
             this.groupBox3.Controls.Add(this.BtnBrowse);
@@ -300,9 +302,33 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Document Tools";
             // 
+            // Rbtn_webi4x
+            // 
+            this.Rbtn_webi4x.AutoSize = true;
+            this.Rbtn_webi4x.Location = new System.Drawing.Point(203, 20);
+            this.Rbtn_webi4x.Name = "Rbtn_webi4x";
+            this.Rbtn_webi4x.Size = new System.Drawing.Size(122, 17);
+            this.Rbtn_webi4x.TabIndex = 15;
+            this.Rbtn_webi4x.TabStop = true;
+            this.Rbtn_webi4x.Text = "Webi 4.2 and above";
+            this.Rbtn_webi4x.UseVisualStyleBackColor = true;
+            this.Rbtn_webi4x.Click += new System.EventHandler(this.Rbtn_webi4x_Click);
+            // 
+            // Rbtn_webi41
+            // 
+            this.Rbtn_webi41.AutoSize = true;
+            this.Rbtn_webi41.Location = new System.Drawing.Point(111, 20);
+            this.Rbtn_webi41.Name = "Rbtn_webi41";
+            this.Rbtn_webi41.Size = new System.Drawing.Size(68, 17);
+            this.Rbtn_webi41.TabIndex = 14;
+            this.Rbtn_webi41.TabStop = true;
+            this.Rbtn_webi41.Text = "Webi 4.1";
+            this.Rbtn_webi41.UseVisualStyleBackColor = true;
+            this.Rbtn_webi41.Click += new System.EventHandler(this.Rbtn_webi41_Click);
+            // 
             // BtnBrowse
             // 
-            this.BtnBrowse.Location = new System.Drawing.Point(318, 103);
+            this.BtnBrowse.Location = new System.Drawing.Point(319, 102);
             this.BtnBrowse.Name = "BtnBrowse";
             this.BtnBrowse.Size = new System.Drawing.Size(75, 23);
             this.BtnBrowse.TabIndex = 13;
@@ -323,7 +349,7 @@
             // LblFilename
             // 
             this.LblFilename.AutoSize = true;
-            this.LblFilename.Location = new System.Drawing.Point(27, 108);
+            this.LblFilename.Location = new System.Drawing.Point(27, 107);
             this.LblFilename.Name = "LblFilename";
             this.LblFilename.Size = new System.Drawing.Size(52, 13);
             this.LblFilename.TabIndex = 12;
@@ -332,7 +358,7 @@
             // 
             // TxtFilename
             // 
-            this.TxtFilename.Location = new System.Drawing.Point(85, 104);
+            this.TxtFilename.Location = new System.Drawing.Point(85, 103);
             this.TxtFilename.Name = "TxtFilename";
             this.TxtFilename.Size = new System.Drawing.Size(227, 20);
             this.TxtFilename.TabIndex = 11;
@@ -340,7 +366,7 @@
             // LblFolderId
             // 
             this.LblFolderId.AutoSize = true;
-            this.LblFolderId.Location = new System.Drawing.Point(26, 82);
+            this.LblFolderId.Location = new System.Drawing.Point(26, 81);
             this.LblFolderId.Name = "LblFolderId";
             this.LblFolderId.Size = new System.Drawing.Size(53, 13);
             this.LblFolderId.TabIndex = 8;
@@ -349,7 +375,7 @@
             // 
             // TxtFolderId
             // 
-            this.TxtFolderId.Location = new System.Drawing.Point(85, 78);
+            this.TxtFolderId.Location = new System.Drawing.Point(85, 77);
             this.TxtFolderId.Name = "TxtFolderId";
             this.TxtFolderId.Size = new System.Drawing.Size(121, 20);
             this.TxtFolderId.TabIndex = 7;
@@ -373,29 +399,15 @@
             this.TxtDocId.Size = new System.Drawing.Size(121, 20);
             this.TxtDocId.TabIndex = 0;
             // 
-            // Rbtn_webi41
+            // BtnPurge
             // 
-            this.Rbtn_webi41.AutoSize = true;
-            this.Rbtn_webi41.Location = new System.Drawing.Point(111, 20);
-            this.Rbtn_webi41.Name = "Rbtn_webi41";
-            this.Rbtn_webi41.Size = new System.Drawing.Size(68, 17);
-            this.Rbtn_webi41.TabIndex = 14;
-            this.Rbtn_webi41.TabStop = true;
-            this.Rbtn_webi41.Text = "Webi 4.1";
-            this.Rbtn_webi41.UseVisualStyleBackColor = true;
-            this.Rbtn_webi41.Click += new System.EventHandler(this.Rbtn_webi41_Click);
-            // 
-            // Rbtn_webi4x
-            // 
-            this.Rbtn_webi4x.AutoSize = true;
-            this.Rbtn_webi4x.Location = new System.Drawing.Point(203, 20);
-            this.Rbtn_webi4x.Name = "Rbtn_webi4x";
-            this.Rbtn_webi4x.Size = new System.Drawing.Size(122, 17);
-            this.Rbtn_webi4x.TabIndex = 15;
-            this.Rbtn_webi4x.TabStop = true;
-            this.Rbtn_webi4x.Text = "Webi 4.2 and above";
-            this.Rbtn_webi4x.UseVisualStyleBackColor = true;
-            this.Rbtn_webi4x.Click += new System.EventHandler(this.Rbtn_webi4x_Click);
+            this.BtnPurge.Location = new System.Drawing.Point(319, 77);
+            this.BtnPurge.Name = "BtnPurge";
+            this.BtnPurge.Size = new System.Drawing.Size(75, 21);
+            this.BtnPurge.TabIndex = 16;
+            this.BtnPurge.Text = "Purge";
+            this.BtnPurge.UseVisualStyleBackColor = true;
+            this.BtnPurge.Click += new System.EventHandler(this.BtnPurge_Click);
             // 
             // MainForm
             // 
@@ -453,6 +465,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RadioButton Rbtn_webi4x;
         private System.Windows.Forms.RadioButton Rbtn_webi41;
+        private System.Windows.Forms.Button BtnPurge;
     }
 }
 
