@@ -18,6 +18,7 @@ namespace SAP_BO_4._2_Web_API_client
             this.webAPIconnect = webAPIconnect;
         }
 
+        // Get Document list using CMSquery.. Only applicable for 4.2 and above
         public SAPDocumentList GetDocumentList(string FolderId)
         {
             SAPDocumentList docList;
@@ -26,7 +27,7 @@ namespace SAP_BO_4._2_Web_API_client
 
             send = "<attrs xmlns=\"http://www.sap.com/rws/bip\">" +
                 "<attr name = \"query\" type = \"string\">" +
-                "SELECT TOP 50000 SI_NAME, SI_ID, SI_KIND, SI_UNIVERSE, SI_DSL_UNIVERSE, " +
+                "SELECT TOP 50000 SI_NAME, SI_ID, SI_KIND, SI_UPDATE_TS,  SI_UNIVERSE, SI_DSL_UNIVERSE, " +
                 "SI_FHSQL_RELATIONAL_CONNECTION, SI_PARENTID, SI_FILES, SI_PARENT_FOLDER " +
                 "from CI_INFOOBJECTS, CI_SYSTEMOBJECTS, CI_APPOBJECTS WHERE si_kind = 'Webi' " +
                 "AND SI_INSTANCE = 0 AND SI_ANCESTOR = " + FolderId +
@@ -55,6 +56,8 @@ namespace SAP_BO_4._2_Web_API_client
             }
         }
 
+        //It is better to use the Infostore solution with Serializers for the response XML...
+        // Working for 4.1 and above
         public SAPDocumentList GetDocumentListInfostore(string FolderId)
         {
             Debug.WriteLine("In GetDocumentListInfostore  for folder:"+ FolderId);
@@ -204,6 +207,9 @@ namespace SAP_BO_4._2_Web_API_client
                             break;
                         case "path":
                             doc.SI_PATH = child.InnerText;
+                            break;
+                        case "updated":
+                            doc.SI_UPDATE_TS = child.InnerText;
                             break;
                         default:
                             break;

@@ -28,11 +28,11 @@ namespace SAP_BO_4._2_Web_API_client
             StreamWriter sw = new StreamWriter(Filename);
             char Delim = ';';
 
-            sw.WriteLine("ReportID" + Delim + "Report Name" + Delim + "Path");
+            sw.WriteLine("ReportID" + Delim + "Report Name" + Delim + "Path" + Delim + "Updated");
 
                 foreach (SAPDocument doc in DocList)
                 {
-                    sw.WriteLine(doc.SI_ID + Delim + doc.SI_NAME  + Delim + doc.SI_PATH);                        
+                    sw.WriteLine(doc.SI_ID + Delim + doc.SI_NAME  + Delim + doc.SI_PATH + Delim + doc.SI_UPDATE_TS);                        
                 }
 
                 //Close the file

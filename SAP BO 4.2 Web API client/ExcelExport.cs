@@ -39,12 +39,14 @@ namespace SAP_BO_4._2_Web_API_client
             xlWorkSheet.Cells[1, 1] = "ID";
             xlWorkSheet.Cells[1, 2] = "Name";
             xlWorkSheet.Cells[1, 3] = "Path";
+            xlWorkSheet.Cells[1, 4] = "Updated";
             int i = 2;
             foreach(SAPDocument doc in this.DocList)
             {
                 xlWorkSheet.Cells[i, 1] = doc.SI_ID;
                 xlWorkSheet.Cells[i, 2] = doc.SI_NAME;
                 xlWorkSheet.Cells[i, 3] = doc.SI_PATH;
+                xlWorkSheet.Cells[i, 4] = doc.SI_UPDATE_TS;
                 i++;
             }
 
