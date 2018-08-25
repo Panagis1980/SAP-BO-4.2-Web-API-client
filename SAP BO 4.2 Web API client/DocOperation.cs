@@ -13,7 +13,7 @@ namespace SAP_BO_4._2_Web_API_client
     {
 
         WebAPIconnection webAPIconnect;
-        public DocOperation (WebAPIconnection webAPIconnect)
+        public DocOperation(WebAPIconnection webAPIconnect)
         {
             this.webAPIconnect = webAPIconnect;
         }
@@ -32,10 +32,10 @@ namespace SAP_BO_4._2_Web_API_client
                 "from CI_INFOOBJECTS, CI_SYSTEMOBJECTS, CI_APPOBJECTS WHERE si_kind = 'Webi' " +
                 "AND SI_INSTANCE = 0 AND SI_ANCESTOR = " + FolderId +
                 "</attr ></attrs>";
-          
+
             try
             {
-                webAPIconnect.Send("POST", "/biprws/v1/cmsquery", send,  "application/xml", "application/JSON");
+                webAPIconnect.Send("POST", "/biprws/v1/cmsquery", send, "application/xml", "application/JSON");
                 recv = webAPIconnect.responseContent;
 
                 docList = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<SAPDocumentList>(recv);
@@ -43,11 +43,14 @@ namespace SAP_BO_4._2_Web_API_client
                 {
                     item.SI_PATH = GetDocumentPath(FolderId, item.SI_ID);
                     item.DataProviderList = GetDocumentDataproviders(item);
+                    item.ParameterList = GetDocumentParameters(item.SI_ID);
+                    item.ReportList = GetDocumentReports(item.SI_ID);
                 }
 
                 return docList;
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Debug.WriteLine(recv);
                 Debug.WriteLine(e.Message);
@@ -60,26 +63,27 @@ namespace SAP_BO_4._2_Web_API_client
         // Working for 4.1 and above
         public SAPDocumentList GetDocumentListInfostore(string FolderId)
         {
-            Debug.WriteLine("In GetDocumentListInfostore  for folder:"+ FolderId);
+            Debug.WriteLine("In GetDocumentListInfostore  for folder:" + FolderId);
             Debug.Flush();
             SAPDocumentList docList = new SAPDocumentList();
             string send = string.Empty;
             string recv = string.Empty;
             XmlDocument XmlResponse = new XmlDocument();
-          
+
             try
             {
                 Debug.WriteLine("Try...");
                 Debug.Flush();
-                webAPIconnect.Send("GET", "/biprws/infostore/"+ FolderId + "/children?pageSize=200", send, "application/xml", "application/xml");              
-                TextReader reader = new StringReader(webAPIconnect.responseContent);                
+                webAPIconnect.Send("GET", "/biprws/infostore/" + FolderId + "/children?pageSize=200", send, "application/xml", "application/xml");
+                TextReader reader = new StringReader(webAPIconnect.responseContent);
                 XmlSerializer serializer = new XmlSerializer(typeof(feed));
                 feed deserializedEntries = serializer.Deserialize(reader) as feed;
                 if (deserializedEntries.entry == null)
                 {
                     Debug.WriteLine("Null deserialized Entries");
                     Debug.Flush();
-                } else
+                }
+                else
                 {
                     Debug.WriteLine("Deserialized Entries:" + deserializedEntries.entry.Length);
                     Debug.Flush();
@@ -119,22 +123,22 @@ namespace SAP_BO_4._2_Web_API_client
 
                         if (type.Equals("Webi"))
                         {
-                            docList.entries.Add(GetDocumentInfo(id));
-                            Debug.WriteLine("Doc ID:"+ id);
+                            docList.entries.Add(GetDocument(id));
+                            Debug.WriteLine("Doc ID:" + id);
                             Debug.Flush();
                         }
                         else if (type.Equals("Folder"))
                         {
                             SAPDocumentList docListInner = GetDocumentListInfostore(id);
-                            Debug.WriteLine("Folder ID:"+ id);
-                            Debug.WriteLine("Inner list size:"+ docListInner.entries.Count.ToString());
+                            Debug.WriteLine("Folder ID:" + id);
+                            Debug.WriteLine("Inner list size:" + docListInner.entries.Count.ToString());
                             Debug.Flush();
                             foreach (SAPDocument docInner in docListInner)
                             {
                                 docList.entries.Add(docInner);
                             }
                         }
-                        
+
                     }
                 }
             }
@@ -151,7 +155,7 @@ namespace SAP_BO_4._2_Web_API_client
         public string[] GetFolderDetails(string FolderId)
         {
             string[] FolderDetails = new string[2];
-            string send = string.Empty;            
+            string send = string.Empty;
             XmlDocument XmlResponse = new XmlDocument();
 
             try
@@ -181,7 +185,7 @@ namespace SAP_BO_4._2_Web_API_client
             }
 
         }
-        public SAPDocument GetDocumentInfo(string DocumentId)
+        public SAPDocument GetDocument(string DocumentId)
         {
             SAPDocument doc = new SAPDocument();
             string connName = string.Empty;
@@ -216,6 +220,8 @@ namespace SAP_BO_4._2_Web_API_client
                     }
                 }
                 doc.DataProviderList = GetDocumentDataproviders(doc);
+                doc.ParameterList = GetDocumentParameters(doc.SI_ID);
+                doc.ReportList = GetDocumentReports(doc.SI_ID);
                 return doc;
             }
             catch (Exception e)
@@ -273,7 +279,7 @@ namespace SAP_BO_4._2_Web_API_client
             string send = string.Empty;
             XmlDocument XmlResponse = new XmlDocument();
 
-            webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + doc.SI_ID +"/dataproviders", send, "application/xml", "application/xml");
+            webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders", send, "application/xml", "application/xml");
             XmlResponse.LoadXml(webAPIconnect.responseContent);
 
             XmlNodeList elemList = XmlResponse.GetElementsByTagName("dataprovider");
@@ -285,7 +291,8 @@ namespace SAP_BO_4._2_Web_API_client
                     XmlNodeList childList = node.ChildNodes;
                     foreach (XmlNode child in childList)
                     {
-                        switch (child.Name) {
+                        switch (child.Name)
+                        {
                             case "id":
                                 dp.ID = child.InnerText;
                                 break;
@@ -298,7 +305,7 @@ namespace SAP_BO_4._2_Web_API_client
                             case "dataSourceType":
                                 dp.DataSourceType = child.InnerText;
                                 break;
-                            default :                                    
+                            default:
                                 break;
                         }
                     }
@@ -307,103 +314,187 @@ namespace SAP_BO_4._2_Web_API_client
                         if (dp.DataSourceType.Equals("fhsql"))
                         {
                             dp.sql = GetFHSQL(doc.SI_ID, dp.ID);
-                        }                                
+                        }
                         dp.DataSourceName = GetConnectionName(dp.DataSourceId);
                     }
-                                                   
+
                     DPList.Add(dp);
                 }
             }
             return DPList;
         }
 
-        public List<SAPDataProvider> GetDataproviders(SAPDocument doc)
+        // Not Used
+        //public List<SAPDataProvider> GetDataproviders(SAPDocument doc)
+        //{
+
+        //    List<SAPDataProvider> DPList = new List<SAPDataProvider>();
+        //    string send = string.Empty;
+        //    XmlDocument XmlResponse = new XmlDocument();
+        //    Debug.WriteLine("/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders");
+        //    Debug.Flush();
+        //    webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders", send, "application/xml", "application/xml");
+        //    XmlResponse.LoadXml(webAPIconnect.responseContent);
+        //    Debug.WriteLine(webAPIconnect.responseContent);
+        //    Debug.Flush();
+        //    XmlNodeList elemList = XmlResponse.GetElementsByTagName("id");
+        //    if (elemList.Count > 0)
+        //    {
+        //        foreach (XmlNode node in elemList)
+        //        {
+        //            SAPDataProvider dp = new SAPDataProvider();
+
+        //            string DpId = node.InnerText;
+        //            Debug.WriteLine("In GetDataProvider " + DpId + " for Document:" + doc.SI_NAME);
+        //            Debug.Flush();
+        //            try
+        //            {
+        //                Debug.WriteLine("/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders/" + DpId);
+        //                webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders/" + DpId, send, "application/xml", "application/xml");
+        //                TextReader reader = new StringReader(webAPIconnect.responseContent);
+        //                XmlSerializer serializer = new XmlSerializer(typeof(dataprovider));
+        //                dataprovider dpSerialized = serializer.Deserialize(reader) as dataprovider;
+        //                if (dpSerialized == null)
+        //                {
+        //                    Debug.WriteLine("Null dataprovider");
+        //                    Debug.Flush();
+        //                }
+        //                else
+        //                {
+        //                    dp.ID = dpSerialized.id;
+        //                    dp.Name = dpSerialized.name;
+        //                    dp.DataSourceId = dpSerialized.dataSourceId.ToString();
+        //                    dp.DataSourceType = dpSerialized.dataSourceType;
+        //                    if (dpSerialized.properties != null)
+        //                    {
+        //                        foreach (var property in dpSerialized.properties)
+        //                        {
+        //                            switch (property.key)
+        //                            {
+        //                                case "sql":
+        //                                    dp.sql = property.Value;
+        //                                    break;
+        //                                default:
+        //                                    break;
+        //                            }
+        //                        }
+        //                    }
+        //                }
+
+        //                if (dpSerialized.dataSourceType.Equals("fhsql"))
+        //                {
+        //                    try
+        //                    {
+        //                        dp.DataSourceName = GetConnectionName(dp.DataSourceId);
+        //                    }
+        //                    catch (Exception e)
+        //                    {
+        //                        Debug.WriteLine("Error in doc name:" + doc.SI_NAME);
+        //                        Debug.WriteLine(e.StackTrace);
+        //                        Debug.Flush();
+
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    dp.DataSourceName = "No Connection name";
+        //                }
+        //                DPList.Add(dp);
+
+        //            }
+        //            catch (Exception exc)
+        //            {
+        //                Debug.WriteLine("Error in doc name:" + doc.SI_NAME);
+        //                Debug.WriteLine(exc.StackTrace);
+        //                Debug.Flush();
+        //                dp.DataSourceName = "No Connection name";
+        //            }
+        //        }
+        //    }
+        //    return DPList;
+        //}
+
+
+        public List<parametersParameter> GetDocumentParameters(string DocumentId)
         {
 
-            List<SAPDataProvider> DPList = new List<SAPDataProvider>();
+            List<parametersParameter> paramList = new List<parametersParameter>();
             string send = string.Empty;
             XmlDocument XmlResponse = new XmlDocument();
-            Debug.WriteLine("/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders");
+            Debug.WriteLine("/biprws/raylight/v1/documents/" + DocumentId + "/parameters");
             Debug.Flush();
-            webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders", send, "application/xml", "application/xml");
-            XmlResponse.LoadXml(webAPIconnect.responseContent);
-            Debug.WriteLine(webAPIconnect.responseContent);
-            Debug.Flush();
-            XmlNodeList elemList = XmlResponse.GetElementsByTagName("id");
-            if (elemList.Count > 0)
+            try
             {
-                foreach (XmlNode node in elemList)
+                webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + DocumentId + "/parameters", send, "application/xml", "application/xml");
+                XmlResponse.LoadXml(webAPIconnect.responseContent);
+                Debug.WriteLine(webAPIconnect.responseContent);
+                Debug.Flush();
+                TextReader reader = new StringReader(webAPIconnect.responseContent);
+                XmlSerializer serializer = new XmlSerializer(typeof(parameters));
+                parameters deserializedEntries = serializer.Deserialize(reader) as parameters;
+                if (deserializedEntries.parameter == null)
                 {
-                    SAPDataProvider dp = new SAPDataProvider();
-
-                    string DpId = node.InnerText;
-                    Debug.WriteLine("In GetDataProvider " + DpId + " for Document:" + doc.SI_NAME);
+                    Debug.WriteLine("Null deserialized Entries");
                     Debug.Flush();
-                    try
+                }
+                else
+                {
+                    Debug.WriteLine("Deserialized Entries:" + deserializedEntries.parameter.Length);
+                    Debug.Flush();
+                    foreach (var entry in deserializedEntries.parameter)
                     {
-                        Debug.WriteLine("/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders/" + DpId);
-                        webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + doc.SI_ID + "/dataproviders/" + DpId, send, "application/xml", "application/xml");
-                        TextReader reader = new StringReader(webAPIconnect.responseContent);
-                        XmlSerializer serializer = new XmlSerializer(typeof(dataprovider));
-                        dataprovider dpSerialized = serializer.Deserialize(reader) as dataprovider;
-                        if (dpSerialized == null)
-                        {
-                            Debug.WriteLine("Null dataprovider");
-                            Debug.Flush();
-                        }
-                        else
-                        {
-                            dp.ID = dpSerialized.id;
-                            dp.Name = dpSerialized.name;
-                            dp.DataSourceId = dpSerialized.dataSourceId.ToString();
-                            dp.DataSourceType = dpSerialized.dataSourceType;
-                            if (dpSerialized.properties != null)
-                            {
-                                foreach (var property in dpSerialized.properties)
-                                {
-                                    switch (property.key)
-                                    {
-                                        case "sql":
-                                            dp.sql = property.Value;
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                            }
-                        }
-
-                        if (dpSerialized.dataSourceType.Equals("fhsql"))
-                        {
-                            try
-                            {
-                                dp.DataSourceName = GetConnectionName(dp.DataSourceId);
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.WriteLine("Error in doc name:" + doc.SI_NAME);
-                                Debug.WriteLine(e.StackTrace);
-                                Debug.Flush();
-
-                            }
-                        }
-                        else
-                        {
-                            dp.DataSourceName = "No Connection name";
-                        }
-                        DPList.Add(dp);
-
-                    }
-                    catch (Exception exc)
-                    {
-                        Debug.WriteLine("Error in doc name:" + doc.SI_NAME);
-                        Debug.WriteLine(exc.StackTrace);
-                        Debug.Flush();
-                        dp.DataSourceName = "No Connection name";
+                        paramList.Add(entry);
                     }
                 }
             }
-            return DPList;
+            catch (Exception paramException)
+            {
+                Debug.WriteLine("Error in Parameter (Prompts) extraction for document: \r\n"
+                    + paramException.Message);
+                Debug.Flush();
+            }
+            return paramList;
+        }
+
+        public List<reportsReport> GetDocumentReports(string DocumentId)
+        {
+
+            List<reportsReport> reportList = new List<reportsReport>();
+            string send = string.Empty;
+            XmlDocument XmlResponse = new XmlDocument();
+            Debug.WriteLine("/biprws/raylight/v1/documents/" + DocumentId + "/reports");
+            Debug.Flush();
+            try
+            {
+                webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + DocumentId + "/reports", send, "application/xml", "application/xml");
+                XmlResponse.LoadXml(webAPIconnect.responseContent);
+                Debug.WriteLine(webAPIconnect.responseContent);
+                Debug.Flush();
+                TextReader reader = new StringReader(webAPIconnect.responseContent);
+                XmlSerializer serializer = new XmlSerializer(typeof(reports));
+                reports deserializedEntries = serializer.Deserialize(reader) as reports;
+                if (deserializedEntries.report == null)
+                {
+                    Debug.WriteLine("Null deserialized Entries");
+                    Debug.Flush();
+                }
+                else
+                {
+                    Debug.WriteLine("Deserialized Entries:" + deserializedEntries.report.Length);
+                    Debug.Flush();
+                    foreach (var entry in deserializedEntries.report)
+                    {
+                        reportList.Add(entry);
+                    }
+                }
+            }
+            catch (Exception paramException)
+            {
+                Debug.WriteLine("Error in Report (Tabs) extraction for document DocumentId "+ DocumentId + ": \r\n"
+                    + paramException.Message);
+                Debug.Flush();
+            }
+            return reportList;
         }
 
         public void PurgeDataProviders(string DocId, string DpId, Boolean promptsAlso)
@@ -414,7 +505,7 @@ namespace SAP_BO_4._2_Web_API_client
 
             try
             {
-                webAPIconnect.Send("PUT", "/biprws/raylight/v1/documents/" + DocId + "/dataproviders/"+ DpId+ "?purge=true" +
+                webAPIconnect.Send("PUT", "/biprws/raylight/v1/documents/" + DocId + "/dataproviders/" + DpId + "?purge=true" +
                     (promptsAlso ? "&purgeOptions=prompts" : ""), send, "application/xml", "application/xml");
                 XmlResponse.LoadXml(webAPIconnect.responseContent);
 
@@ -434,7 +525,7 @@ namespace SAP_BO_4._2_Web_API_client
             string send = string.Empty;
             XmlDocument XmlResponse = new XmlDocument();
 
-            webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + DocId + "/dataproviders/"+DpId, send, "application/xml", "application/xml");
+            webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + DocId + "/dataproviders/" + DpId, send, "application/xml", "application/xml");
             XmlResponse.LoadXml(webAPIconnect.responseContent);
 
             XmlNodeList properties = XmlResponse.GetElementsByTagName("property");

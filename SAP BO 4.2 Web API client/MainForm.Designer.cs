@@ -251,6 +251,7 @@
             this.LovHttpMethod.Name = "LovHttpMethod";
             this.LovHttpMethod.Size = new System.Drawing.Size(121, 21);
             this.LovHttpMethod.TabIndex = 0;
+            this.LovHttpMethod.SelectedIndexChanged += new System.EventHandler(this.LovHttpMethod_SelectedIndexChanged);
             // 
             // BtnFetchParam
             // 
@@ -278,7 +279,7 @@
             this.TxtRequest.Name = "TxtRequest";
             this.TxtRequest.Size = new System.Drawing.Size(309, 20);
             this.TxtRequest.TabIndex = 1;
-            this.TxtRequest.Text = "/biprws/v1/cmsquery";
+            this.TxtRequest.Text = "/biprws/raylight/v1/documents";
             // 
             // groupBox3
             // 
@@ -401,7 +402,6 @@
             this.TxtFolderId.Name = "TxtFolderId";
             this.TxtFolderId.Size = new System.Drawing.Size(121, 20);
             this.TxtFolderId.TabIndex = 7;
-            this.TxtFolderId.Text = "68178";
             this.TxtFolderId.TextChanged += new System.EventHandler(this.TxtFolderId_TextChanged);
             // 
             // LblDocId
@@ -420,6 +420,7 @@
             this.TxtDocId.Name = "TxtDocId";
             this.TxtDocId.Size = new System.Drawing.Size(121, 20);
             this.TxtDocId.TabIndex = 0;
+            this.TxtDocId.Text = "68178";
             // 
             // MainForm
             // 
@@ -432,6 +433,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "MainForm";
             this.Text = "SAP Business Objects Web API 4.2 client";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

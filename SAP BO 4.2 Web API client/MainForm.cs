@@ -25,7 +25,16 @@ namespace SAP_BO_4._2_Web_API_client
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            TxtFilename.Text = TxtFolderId.Text + "_Webi_List.xlsx";
+            //TxtFilename.Text = TxtFolderId.Text + "_Webi_List.xlsx";
+            Rbtn_webi4x.Checked = Properties.Settings.Default.WebiVersion;
+            LovHttpMethod.SelectedIndex = Properties.Settings.Default.HttpMethod;
+            TxtURI.Text = Properties.Settings.Default.URL_Port;
+            TxtRequest.Text = Properties.Settings.Default.REST_Command;
+            TxtUsername.Text = Properties.Settings.Default.Username;
+            TxtReqXMLBody.Text = Properties.Settings.Default.XML_Body;
+            TxtDocId.Text = Properties.Settings.Default.DocumentID;
+            TxtFolderId.Text = Properties.Settings.Default.FolderID;
+
         }
 
         private void BtnLogon_Click(object sender, EventArgs e)
@@ -190,7 +199,7 @@ namespace SAP_BO_4._2_Web_API_client
             }
             else
             {
-                DocList.entries.Add(docOperation.GetDocumentInfo(TxtDocId.Text));
+                DocList.entries.Add(docOperation.GetDocument(TxtDocId.Text));
             }
 
 
@@ -311,7 +320,7 @@ namespace SAP_BO_4._2_Web_API_client
             }
             else
             {
-                DocList.entries.Add(docOperation.GetDocumentInfo(TxtDocId.Text));
+                DocList.entries.Add(docOperation.GetDocument(TxtDocId.Text));
             }
 
             try
@@ -402,6 +411,24 @@ namespace SAP_BO_4._2_Web_API_client
                 TraceBox.Text += "Error in HTTP Request...\r\n";
             }
 
+        }
+
+        private void LovHttpMethod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.WebiVersion = Rbtn_webi4x.Checked;
+            Properties.Settings.Default.HttpMethod = LovHttpMethod.SelectedIndex;
+            Properties.Settings.Default.URL_Port=TxtURI.Text;
+            Properties.Settings.Default.REST_Command = TxtRequest.Text;
+            Properties.Settings.Default.Username = TxtUsername.Text;
+            Properties.Settings.Default.XML_Body = TxtReqXMLBody.Text;
+            Properties.Settings.Default.DocumentID = TxtDocId.Text;
+            Properties.Settings.Default.FolderID = TxtFolderId.Text;
+            Properties.Settings.Default.Save();
         }
     }
 }

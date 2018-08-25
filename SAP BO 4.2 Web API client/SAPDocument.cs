@@ -16,5 +16,8 @@ namespace SAP_BO_4._2_Web_API_client
             public string SI_PATH { get; set; }
             public string SI_UPDATE_TS { get; set; }
             public List<SAPDataProvider> DataProviderList { get; set; }
+            public List<reportsReport> ReportList { get; set; }
+            public List<parametersParameter> ParameterList { get; set; }
+
     }
 }

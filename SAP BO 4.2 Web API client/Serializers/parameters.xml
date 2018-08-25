@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<parameters>
+  <parameter optional="false" type="prompt" dpId="DP0" primary="true">
+    <id>0</id>
+    <technicalName>ReportID:</technicalName>
+    <name>ReportID:</name>
+    <answer constrained="false" type="Text">
+      <info cardinality="Single" keepLastValues="true">
+        <previous>
+          <value>0</value>
+        </previous>
+      </info>
+      <values>
+        <value>0</value>
+      </values>
+    </answer>
+  </parameter>
+  <parameter optional="false" type="prompt" dpId="DP0" primary="true">
+    <id>1</id>
+    <technicalName>ReportName:</technicalName>
+    <name>ReportName:</name>
+    <answer constrained="false" type="Text">
+      <info cardinality="Single" keepLastValues="true">
+        <previous>
+          <value>CASA</value>
+        </previous>
+      </info>
+      <values>
+        <value>CASA</value>
+      </values>
+    </answer>
+  </parameter>
+</parameters>

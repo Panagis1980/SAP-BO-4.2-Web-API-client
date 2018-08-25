@@ -110,6 +110,10 @@
     <Compile Include="SAPDocument.cs" />
     <Compile Include="DocOperation.cs" />
     <Compile Include="SAPDocumentList.cs" />
+    <Compile Include="Serializers\parameters.cs" />
+    <Compile Include="Serializers\reports.cs">
+      <DependentUpon>reports.xsd</DependentUpon>
+    </Compile>
     <Compile Include="WebAPIconnection.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

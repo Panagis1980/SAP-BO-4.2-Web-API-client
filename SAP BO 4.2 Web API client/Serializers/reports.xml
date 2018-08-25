@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reports>
+  <report hasDatafilter="false" hasDriller="false">
+    <id>1117</id>
+    <name>Summary</name>
+    <reference>1117.RS</reference>
+    <showDataChanges>false</showDataChanges>
+  </report>
+  <report hasDatafilter="true" hasDriller="false">
+    <id>26</id>
+    <name>Activity Follow-up</name>
+    <reference>26.RS</reference>
+    <showDataChanges>false</showDataChanges>
+  </report>
+  <report hasDatafilter="false" hasDriller="false">
+    <id>312</id>
+    <name>Exploration with cascading input controls</name>
+    <reference>312.RS</reference>
+    <showDataChanges>false</showDataChanges>
+  </report>
+  <report hasDatafilter="false" hasDriller="false">
+    <id>1832</id>
+    <name>Exploration with element linking</name>
+    <reference>1832.RS</reference>
+    <showDataChanges>false</showDataChanges>
+  </report>
+  <report hasDatafilter="false" hasDriller="false">
+    <id>35</id>
+    <name>References</name>
+    <reference>35.RS</reference>
+    <showDataChanges>false</showDataChanges>
+  </report>
+</reports>
