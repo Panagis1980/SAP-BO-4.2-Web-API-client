@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TxtURI = new System.Windows.Forms.TextBox();
             this.LblCMSURI = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -69,9 +70,9 @@
             // 
             // TxtURI
             // 
-            this.TxtURI.Location = new System.Drawing.Point(77, 23);
+            this.TxtURI.Location = new System.Drawing.Point(84, 23);
             this.TxtURI.Name = "TxtURI";
-            this.TxtURI.Size = new System.Drawing.Size(211, 20);
+            this.TxtURI.Size = new System.Drawing.Size(204, 20);
             this.TxtURI.TabIndex = 0;
             this.TxtURI.Text = "http://vmbi42sp4:6405";
             // 
@@ -80,9 +81,9 @@
             this.LblCMSURI.AutoSize = true;
             this.LblCMSURI.Location = new System.Drawing.Point(19, 26);
             this.LblCMSURI.Name = "LblCMSURI";
-            this.LblCMSURI.Size = new System.Drawing.Size(52, 13);
+            this.LblCMSURI.Size = new System.Drawing.Size(59, 13);
             this.LblCMSURI.TabIndex = 1;
-            this.LblCMSURI.Text = "CSM URI";
+            this.LblCMSURI.Text = "URI:PORT";
             // 
             // label2
             // 
@@ -95,9 +96,9 @@
             // 
             // TxtUsername
             // 
-            this.TxtUsername.Location = new System.Drawing.Point(77, 48);
+            this.TxtUsername.Location = new System.Drawing.Point(84, 48);
             this.TxtUsername.Name = "TxtUsername";
-            this.TxtUsername.Size = new System.Drawing.Size(119, 20);
+            this.TxtUsername.Size = new System.Drawing.Size(112, 20);
             this.TxtUsername.TabIndex = 2;
             this.TxtUsername.Text = "Administrator";
             // 
@@ -112,9 +113,9 @@
             // 
             // TxtPassword
             // 
-            this.TxtPassword.Location = new System.Drawing.Point(77, 72);
+            this.TxtPassword.Location = new System.Drawing.Point(84, 72);
             this.TxtPassword.Name = "TxtPassword";
-            this.TxtPassword.Size = new System.Drawing.Size(119, 20);
+            this.TxtPassword.Size = new System.Drawing.Size(112, 20);
             this.TxtPassword.TabIndex = 4;
             this.TxtPassword.Text = "POLOp0l0";
             this.TxtPassword.UseSystemPasswordChar = true;
@@ -279,7 +280,7 @@
             this.TxtRequest.Name = "TxtRequest";
             this.TxtRequest.Size = new System.Drawing.Size(309, 20);
             this.TxtRequest.TabIndex = 1;
-            this.TxtRequest.Text = "/biprws/raylight/v1/documents";
+            this.TxtRequest.Text = "/biprws/raylight/v1/";
             // 
             // groupBox3
             // 
@@ -420,7 +421,6 @@
             this.TxtDocId.Name = "TxtDocId";
             this.TxtDocId.Size = new System.Drawing.Size(121, 20);
             this.TxtDocId.TabIndex = 0;
-            this.TxtDocId.Text = "68178";
             // 
             // MainForm
             // 
@@ -431,6 +431,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "SAP Business Objects Web API 4.2 client";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
