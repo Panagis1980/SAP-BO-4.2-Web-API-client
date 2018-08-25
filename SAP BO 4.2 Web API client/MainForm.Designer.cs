@@ -49,6 +49,8 @@
             this.LblRequest = new System.Windows.Forms.Label();
             this.TxtRequest = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnDownloadPDF = new System.Windows.Forms.Button();
+            this.BtnPurge = new System.Windows.Forms.Button();
             this.Rbtn_webi4x = new System.Windows.Forms.RadioButton();
             this.Rbtn_webi41 = new System.Windows.Forms.RadioButton();
             this.BtnBrowse = new System.Windows.Forms.Button();
@@ -60,7 +62,6 @@
             this.LblDocId = new System.Windows.Forms.Label();
             this.TxtDocId = new System.Windows.Forms.TextBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.BtnPurge = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -277,13 +278,14 @@
             this.TxtRequest.Name = "TxtRequest";
             this.TxtRequest.Size = new System.Drawing.Size(309, 20);
             this.TxtRequest.TabIndex = 1;
-            this.TxtRequest.Text = "/biprws/raylight/v1/";
+            this.TxtRequest.Text = "/biprws/v1/cmsquery";
             // 
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.btnDownloadPDF);
             this.groupBox3.Controls.Add(this.BtnPurge);
             this.groupBox3.Controls.Add(this.Rbtn_webi4x);
             this.groupBox3.Controls.Add(this.Rbtn_webi41);
@@ -302,10 +304,30 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Document Tools";
             // 
+            // btnDownloadPDF
+            // 
+            this.btnDownloadPDF.Location = new System.Drawing.Point(319, 19);
+            this.btnDownloadPDF.Name = "btnDownloadPDF";
+            this.btnDownloadPDF.Size = new System.Drawing.Size(75, 21);
+            this.btnDownloadPDF.TabIndex = 17;
+            this.btnDownloadPDF.Text = "Get PDF...";
+            this.btnDownloadPDF.UseVisualStyleBackColor = true;
+            this.btnDownloadPDF.Click += new System.EventHandler(this.btnDownloadPDF_Click);
+            // 
+            // BtnPurge
+            // 
+            this.BtnPurge.Location = new System.Drawing.Point(319, 74);
+            this.BtnPurge.Name = "BtnPurge";
+            this.BtnPurge.Size = new System.Drawing.Size(75, 21);
+            this.BtnPurge.TabIndex = 16;
+            this.BtnPurge.Text = "Purge";
+            this.BtnPurge.UseVisualStyleBackColor = true;
+            this.BtnPurge.Click += new System.EventHandler(this.BtnPurge_Click);
+            // 
             // Rbtn_webi4x
             // 
             this.Rbtn_webi4x.AutoSize = true;
-            this.Rbtn_webi4x.Location = new System.Drawing.Point(203, 20);
+            this.Rbtn_webi4x.Location = new System.Drawing.Point(85, 21);
             this.Rbtn_webi4x.Name = "Rbtn_webi4x";
             this.Rbtn_webi4x.Size = new System.Drawing.Size(122, 17);
             this.Rbtn_webi4x.TabIndex = 15;
@@ -317,7 +339,7 @@
             // Rbtn_webi41
             // 
             this.Rbtn_webi41.AutoSize = true;
-            this.Rbtn_webi41.Location = new System.Drawing.Point(111, 20);
+            this.Rbtn_webi41.Location = new System.Drawing.Point(8, 21);
             this.Rbtn_webi41.Name = "Rbtn_webi41";
             this.Rbtn_webi41.Size = new System.Drawing.Size(68, 17);
             this.Rbtn_webi41.TabIndex = 14;
@@ -328,7 +350,7 @@
             // 
             // BtnBrowse
             // 
-            this.BtnBrowse.Location = new System.Drawing.Point(319, 102);
+            this.BtnBrowse.Location = new System.Drawing.Point(319, 101);
             this.BtnBrowse.Name = "BtnBrowse";
             this.BtnBrowse.Size = new System.Drawing.Size(75, 23);
             this.BtnBrowse.TabIndex = 13;
@@ -338,7 +360,7 @@
             // 
             // BtnExport
             // 
-            this.BtnExport.Location = new System.Drawing.Point(319, 52);
+            this.BtnExport.Location = new System.Drawing.Point(319, 46);
             this.BtnExport.Name = "BtnExport";
             this.BtnExport.Size = new System.Drawing.Size(75, 21);
             this.BtnExport.TabIndex = 6;
@@ -349,7 +371,7 @@
             // LblFilename
             // 
             this.LblFilename.AutoSize = true;
-            this.LblFilename.Location = new System.Drawing.Point(27, 107);
+            this.LblFilename.Location = new System.Drawing.Point(27, 106);
             this.LblFilename.Name = "LblFilename";
             this.LblFilename.Size = new System.Drawing.Size(52, 13);
             this.LblFilename.TabIndex = 12;
@@ -358,7 +380,7 @@
             // 
             // TxtFilename
             // 
-            this.TxtFilename.Location = new System.Drawing.Point(85, 103);
+            this.TxtFilename.Location = new System.Drawing.Point(85, 102);
             this.TxtFilename.Name = "TxtFilename";
             this.TxtFilename.Size = new System.Drawing.Size(227, 20);
             this.TxtFilename.TabIndex = 11;
@@ -366,7 +388,7 @@
             // LblFolderId
             // 
             this.LblFolderId.AutoSize = true;
-            this.LblFolderId.Location = new System.Drawing.Point(26, 81);
+            this.LblFolderId.Location = new System.Drawing.Point(26, 78);
             this.LblFolderId.Name = "LblFolderId";
             this.LblFolderId.Size = new System.Drawing.Size(53, 13);
             this.LblFolderId.TabIndex = 8;
@@ -375,17 +397,17 @@
             // 
             // TxtFolderId
             // 
-            this.TxtFolderId.Location = new System.Drawing.Point(85, 77);
+            this.TxtFolderId.Location = new System.Drawing.Point(85, 74);
             this.TxtFolderId.Name = "TxtFolderId";
             this.TxtFolderId.Size = new System.Drawing.Size(121, 20);
             this.TxtFolderId.TabIndex = 7;
-            this.TxtFolderId.Text = "5388";
+            this.TxtFolderId.Text = "68178";
             this.TxtFolderId.TextChanged += new System.EventHandler(this.TxtFolderId_TextChanged);
             // 
             // LblDocId
             // 
             this.LblDocId.AutoSize = true;
-            this.LblDocId.Location = new System.Drawing.Point(6, 56);
+            this.LblDocId.Location = new System.Drawing.Point(6, 50);
             this.LblDocId.Name = "LblDocId";
             this.LblDocId.Size = new System.Drawing.Size(73, 13);
             this.LblDocId.TabIndex = 6;
@@ -394,20 +416,10 @@
             // 
             // TxtDocId
             // 
-            this.TxtDocId.Location = new System.Drawing.Point(85, 52);
+            this.TxtDocId.Location = new System.Drawing.Point(85, 46);
             this.TxtDocId.Name = "TxtDocId";
             this.TxtDocId.Size = new System.Drawing.Size(121, 20);
             this.TxtDocId.TabIndex = 0;
-            // 
-            // BtnPurge
-            // 
-            this.BtnPurge.Location = new System.Drawing.Point(319, 77);
-            this.BtnPurge.Name = "BtnPurge";
-            this.BtnPurge.Size = new System.Drawing.Size(75, 21);
-            this.BtnPurge.TabIndex = 16;
-            this.BtnPurge.Text = "Purge";
-            this.BtnPurge.UseVisualStyleBackColor = true;
-            this.BtnPurge.Click += new System.EventHandler(this.BtnPurge_Click);
             // 
             // MainForm
             // 
@@ -466,6 +478,7 @@
         private System.Windows.Forms.RadioButton Rbtn_webi4x;
         private System.Windows.Forms.RadioButton Rbtn_webi41;
         private System.Windows.Forms.Button BtnPurge;
+        private System.Windows.Forms.Button btnDownloadPDF;
     }
 }
 

@@ -38,7 +38,7 @@ namespace SAP_BO_4._2_Web_API_client
 
             if (webAPIconnect != null && webAPIconnect.isLoggedOn())
             {
-                TraceBox.Text += "Please log off before logging on again.\r\n";             
+                TraceBox.Text += "Please log off before logging on again.\r\n";
                 return;
             }
 
@@ -97,18 +97,30 @@ namespace SAP_BO_4._2_Web_API_client
 
             try
             {
-                if (TxtReqXMLBody == null)
+                if (TxtReqXMLBody != null)
                 {
-                    send.InnerXml = TxtReqXMLBody.Text;
+
+                    try
+                    {
+                        send.LoadXml(TxtReqXMLBody.Text);
+                    }
+                    catch (Exception eXML)
+                    {
+                        Debug.WriteLine(eXML.Message);
+                        Debug.Flush();
+                        TraceBox.Text += "Request Body empty or parsing failed...\r\n";
+                    }
                 }
-                webAPIconnect.CreateWebRequest(send, recv, LovHttpMethod.Text, TxtRequest.Text);
+                webAPIconnect.CreateWebRequest(send, recv, LovHttpMethod.Text, TxtRequest.Text, "application/xml");
                 TraceBox.Text += send.OuterXml.ToString() + "\r\n";
-                TraceBox.Text += "==================================\r\n";
                 TraceBox.Text += recv.OuterXml.ToString() + "\r\n";
+                TraceBox.Text += "=Response ========================\r\n";
+                TraceBox.Text += recv.InnerXml.ToString() + "\r\n";
                 TraceBox.Text += "==================================\r\n";
                 TraceBox.Text += "Request succesfully completed...\r\n";
                 TraceBox.Text += "==================================\r\n";
-            } catch
+            }
+            catch
             {
                 TraceBox.Text += "Error in HTTP Request...\r\n";
             }
@@ -181,11 +193,11 @@ namespace SAP_BO_4._2_Web_API_client
                 DocList.entries.Add(docOperation.GetDocumentInfo(TxtDocId.Text));
             }
 
-            
+
 
             try
             {
-                Debug.WriteLine("Number of Documents to export:"+ DocList.entries.Count.ToString());
+                Debug.WriteLine("Number of Documents to export:" + DocList.entries.Count.ToString());
                 Debug.Flush();
                 ExcelExport xlsx = new ExcelExport(DocList);
                 xlsx.GenerateExcel(TxtFilename.Text);
@@ -208,10 +220,11 @@ namespace SAP_BO_4._2_Web_API_client
                     Debug.Flush();
                     TraceBox.Text += "CSV creation failed...\r\n";
                     return;
-                }                
+                }
             }
 
-            try {
+            try
+            {
                 FHSQLExport fhsql = new FHSQLExport(DocList);
                 fhsql.ExportFHSQL(TxtFilename.Text.Replace("xlsx", "fhsql"));
                 TraceBox.Text += "Closing HTTP Request...\r\n";
@@ -227,7 +240,7 @@ namespace SAP_BO_4._2_Web_API_client
 
         private void TxtFolderId_TextChanged(object sender, EventArgs e)
         {
-                TxtFilename.Text = TxtFolderId.Text + "_Webi_List.xlsx";
+            //TxtFilename.Text = TxtFolderId.Text + "_Webi_List.xlsx";
         }
 
         private void Rbtn_webi4x_CheckedChanged(object sender, EventArgs e)
@@ -309,7 +322,7 @@ namespace SAP_BO_4._2_Web_API_client
                 {
                     foreach (SAPDataProvider dp in doc.DataProviderList)
                     {
-                        docOperation.PurgeDataProviders(doc.SI_ID,dp.ID,true);
+                        docOperation.PurgeDataProviders(doc.SI_ID, dp.ID, true);
 
                         if (webAPIconnect.responseContent.Contains("success"))
                         {
@@ -326,6 +339,69 @@ namespace SAP_BO_4._2_Web_API_client
                 MessageBox.Show("Error in Document Purge... \r\n" + "Error Code:" + exc.Message);
                 return;
             }
+        }
+
+        private void btnDownloadPDF_Click(object sender, EventArgs e)
+        {
+
+            if (webAPIconnect == null || !webAPIconnect.isLoggedOn())
+            {
+                TraceBox.Text += "Not logged on. Could not fetch document parameters.\r\n";
+                return;
+            }
+
+            if (!(!TxtFolderId.Text.Equals(string.Empty) ^ !TxtDocId.Text.Equals(string.Empty)))
+            {
+                TraceBox.Text += "Please choose either Document or Folder for export\r\n";
+                return;
+            }
+
+            if (TxtDocId.Text.Equals(string.Empty))
+            {
+                TraceBox.Text += "Please choose Document ID for this action\r\n";
+                return;
+            }
+            saveFileDialog1.InitialDirectory = Convert.ToString(Environment.CurrentDirectory);
+            saveFileDialog1.Filter = "Adobe Acrobat PDF Files (*.pdf)|*.pdf|All Files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 1;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                TxtFilename.Text = saveFileDialog1.FileName;
+            }
+            TraceBox.Text = "";
+            TraceBox.Text += "Attempting HTTP Request...\r\n";
+
+            XmlDocument send = new XmlDocument();
+            byte[] bfile = new byte[0];
+
+            try
+            {
+                if (TxtReqXMLBody != null && TxtReqXMLBody.Text != "")
+                {
+                    send.InnerXml = TxtReqXMLBody.Text;
+                }
+                webAPIconnect.CreateWebRequest(send, ref bfile, "GET", "/biprws/raylight/v1/documents/"+TxtDocId.Text, "application/pdf");
+                TraceBox.Text += send.OuterXml.ToString() + "\r\n";
+                TraceBox.Text += "==================================\r\n";
+                // TraceBox.Text += recv.OuterXml.ToString() + "\r\n";
+                TraceBox.Text += "==================================\r\n";
+                TraceBox.Text += "Request succesfully completed...\r\n";
+                TraceBox.Text += "==================================\r\n";
+
+                if (bfile != null && bfile.Count() > 0)
+                {
+                    System.IO.File.WriteAllBytes(TxtFilename.Text, bfile);
+
+                    TraceBox.Text += "PDF FILE GENERATED...\r\n";
+                    TraceBox.Text += "==================================\r\n";
+                }
+
+            }
+            catch
+            {
+                TraceBox.Text += "Error in HTTP Request...\r\n";
+            }
+
         }
     }
 }

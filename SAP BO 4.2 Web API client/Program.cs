@@ -26,9 +26,8 @@ namespace SAP_BO_4._2_Web_API_client
             //WebAPIconnection webapi = new WebAPIconnection("Administrator", "POLOp0l0", "http://vmbi42sp4:6405");
             //webapi.Logon();
             //DocOperation docop = new DocOperation(webapi);
-            ////SAPDocumentList doclist = docop.GetDocumentListInfostore("5388");
-            //Console.WriteLine(docop.GetFHSQL("10069","DP0"));
-
+            //SAPDocumentList doclist = docop.GetDocumentListInfostore("5388");
+            //Console.WriteLine(docop.GetFHSQL("10069", "DP0"));
             //webapi.Logoff();
         }
     }

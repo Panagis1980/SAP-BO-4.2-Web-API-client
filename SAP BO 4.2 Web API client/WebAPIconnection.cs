@@ -18,6 +18,19 @@ namespace SAP_BO_4._2_Web_API_client
 
         public string URI;
         public static string nameSpace = "http://www.sap.com/rws/bip";
+        private static byte[] ReadFully(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
 
         public WebAPIconnection(string userName, string password, string URI)
         {
@@ -59,7 +72,7 @@ namespace SAP_BO_4._2_Web_API_client
             docPOST = new XmlDocument();
 
             // send request for logon form
-            result = CreateWebRequest(null, docGET, "GET", "/biprws/logon/long");
+            result = CreateWebRequest(null, docGET, "GET", "/biprws/logon/long", "application/xml");
             if (result != 0)
             {
                 return 2;
@@ -91,7 +104,7 @@ namespace SAP_BO_4._2_Web_API_client
 
             // POST the document that was just filled out to the server
             // in order to retrieve the logon token
-            result = CreateWebRequest(docGET, docPOST, "POST", "/biprws/logon/long");
+            result = CreateWebRequest(docGET, docPOST, "POST", "/biprws/logon/long", "application/xml");
 
             // a separate namespace manager keeps things cleaner
             nsmgrPOST = new XmlNamespaceManager(docPOST.NameTable);
@@ -120,7 +133,7 @@ namespace SAP_BO_4._2_Web_API_client
         {
             XmlDocument empty = new XmlDocument();
             XmlDocument empty2 = new XmlDocument();
-            int result = CreateWebRequest(empty, empty2, "POST", "/biprws/logoff");
+            int result = CreateWebRequest(empty, empty2, "POST", "/biprws/logoff", "application/xml");
             if (result == 0)
             {
                 this.logonToken = "";
@@ -150,7 +163,7 @@ namespace SAP_BO_4._2_Web_API_client
          * On success: returns 0
          * On failure: returns a positive int
          */
-        public int CreateWebRequest(XmlDocument send, XmlDocument recv, string method, string URIExtension)
+        public int CreateWebRequest(XmlDocument send, XmlDocument recv, string method, string URIExtension, string respAccept)
         {
 
             reset();
@@ -214,6 +227,72 @@ namespace SAP_BO_4._2_Web_API_client
 
             return 0;
         }
+
+        public int CreateWebRequest(XmlDocument send, ref byte[] recv, string method, string URIExtension, string Accept = "application/xml")
+        {
+
+            reset();
+            if (method != "GET" && method != "PUT" && method != "POST")
+            {
+                return 1; // unsupported method
+            }
+
+            request = (HttpWebRequest)WebRequest.Create(URI + URIExtension);
+            request.Method = method;
+            request.ContentType = "application/xml";
+            request.Accept = Accept;
+            if (logonToken != "")
+            {
+                request.Headers["X-SAP-LogonToken"] = logonToken;
+            }
+
+            // if the method is post or put, the body must be prepared
+            if (method == "POST" || method == "PUT")
+            {
+                // turn the send xml into a stream and put it in request
+                byte[] bytes = System.Text.Encoding.ASCII.GetBytes(send.OuterXml);
+                Stream requestStream;
+                try
+                {
+                    requestStream = request.GetRequestStream();
+                    requestStream.Write(bytes, 0, bytes.Length);
+                    requestStream.Close();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    Debug.Flush();
+                    return 2;
+                }
+            }
+
+            // send the request and retrieve the response
+            try
+            {
+                response = (HttpWebResponse)request.GetResponse();
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    // logging off has no response stream and an attempt to read it will fail
+                    if (URIExtension != "/biprws/logoff")
+                    {
+                        recv = ReadFully(response.GetResponseStream());
+                    }
+                }
+                else
+                {
+                    return 3;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                Debug.Flush();
+                return 4;
+            }
+
+            return 0;
+        }
+
         #endregion
 
         #region migratedFunctions
