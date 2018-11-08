@@ -35,10 +35,12 @@ namespace SAP_BO_4._2_Web_API_client
 
             try
             {
-                webAPIconnect.Send("POST", "/biprws/v1/cmsquery", send, "application/xml", "application/JSON");
+                webAPIconnect.Send("POST", "/biprws/v1/cmsquery?pagesize=2000", send, "application/xml", "application/JSON");
                 recv = webAPIconnect.responseContent;
 
                 docList = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<SAPDocumentList>(recv);
+                Debug.WriteLine(docList.entries.Count.ToString());
+                Debug.Flush();
                 foreach (SAPDocument item in docList.entries)
                 {
                     item.SI_PATH = GetDocumentPath(FolderId, item.SI_ID);
@@ -421,25 +423,25 @@ namespace SAP_BO_4._2_Web_API_client
             List<parametersParameter> paramList = new List<parametersParameter>();
             string send = string.Empty;
             XmlDocument XmlResponse = new XmlDocument();
-            Debug.WriteLine("/biprws/raylight/v1/documents/" + DocumentId + "/parameters");
-            Debug.Flush();
+            //Debug.WriteLine("/biprws/raylight/v1/documents/" + DocumentId + "/parameters");
+            //Debug.Flush();
             try
             {
                 webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + DocumentId + "/parameters", send, "application/xml", "application/xml");
                 XmlResponse.LoadXml(webAPIconnect.responseContent);
-                Debug.WriteLine(webAPIconnect.responseContent);
-                Debug.Flush();
+                //Debug.WriteLine(webAPIconnect.responseContent);
+                //Debug.Flush();
                 TextReader reader = new StringReader(webAPIconnect.responseContent);
                 XmlSerializer serializer = new XmlSerializer(typeof(parameters));
                 parameters deserializedEntries = serializer.Deserialize(reader) as parameters;
                 if (deserializedEntries.parameter == null)
                 {
-                    Debug.WriteLine("Null deserialized Entries");
+                    Debug.WriteLine("Null deserialized Prompt Entries");
                     Debug.Flush();
                 }
                 else
                 {
-                    Debug.WriteLine("Deserialized Entries:" + deserializedEntries.parameter.Length);
+                    Debug.WriteLine("Deserialized Prompt Entries for Document " + DocumentId +": "+ deserializedEntries.parameter.Length.ToString());
                     Debug.Flush();
                     foreach (var entry in deserializedEntries.parameter)
                     {
@@ -462,14 +464,14 @@ namespace SAP_BO_4._2_Web_API_client
             List<reportsReport> reportList = new List<reportsReport>();
             string send = string.Empty;
             XmlDocument XmlResponse = new XmlDocument();
-            Debug.WriteLine("/biprws/raylight/v1/documents/" + DocumentId + "/reports");
-            Debug.Flush();
+            //Debug.WriteLine("/biprws/raylight/v1/documents/" + DocumentId + "/reports");
+            //Debug.Flush();
             try
             {
                 webAPIconnect.Send("GET", "/biprws/raylight/v1/documents/" + DocumentId + "/reports", send, "application/xml", "application/xml");
                 XmlResponse.LoadXml(webAPIconnect.responseContent);
-                Debug.WriteLine(webAPIconnect.responseContent);
-                Debug.Flush();
+                //Debug.WriteLine(webAPIconnect.responseContent);
+                //Debug.Flush();
                 TextReader reader = new StringReader(webAPIconnect.responseContent);
                 XmlSerializer serializer = new XmlSerializer(typeof(reports));
                 reports deserializedEntries = serializer.Deserialize(reader) as reports;

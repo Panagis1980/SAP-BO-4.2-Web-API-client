@@ -187,6 +187,8 @@ namespace SAP_BO_4._2_Web_API_client
                     {
                         DocList = docOperation.GetDocumentListInfostore(TxtFolderId.Text);
                     }
+                    Debug.WriteLine("Total Documents:"+DocList.entries.Count.ToString());
+                    Debug.Flush();
                 }
                 catch (Exception exc)
                 {
