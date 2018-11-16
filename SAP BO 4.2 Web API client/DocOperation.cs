@@ -135,7 +135,7 @@ namespace SAP_BO_4._2_Web_API_client
                             Debug.WriteLine("Folder ID:" + id);
                             Debug.WriteLine("Inner list size:" + docListInner.entries.Count.ToString());
                             Debug.Flush();
-                            docList.entries.AddRange(docListInner);
+                            docList.entries.AddRange(docListInner.entries);
                                 
                         }
 
